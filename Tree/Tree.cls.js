@@ -3,33 +3,33 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
 
   createFromMeta(key, meta, params) {
     const {types, classes} = PreCore,
+        {branches} = this,
         {type, internal} = meta,
         {path} = params
 
     if (internal === true) {
+      Object.defineProperty(this, key, {
+        enumerable: false,
+      });
       return
     }
 
     const {kind} = types[type]
 
     if (kind !== "Branch") {
-      return key
+      branches.push(key)
+      return
     }
 
-    console.log("+++", path, key)
     return classes[type].validate(this, path + "/" + key, meta, params[key])
   }
 
   create(params) {
-    const instance = this.__instance = params.__instance || this
-    Object.defineProperty(this, "__instance", {
-      enumerable: false,
-    })
+    const {classes, instances, types, getType} = PreCore
 
-    const {classes, instances, types} = PreCore,
-        {type, parent} = params,
-        id = params.id = Tree.index++
-    params.path = parent ? parent.__instance.path + "/" + params.key : ""
+    const {type, parent} = params,
+        id = params.id = Tree.index++,
+        path = params.path = parent ? parent.path + "/" + params.key : ""
 
     instances[id] = this
 
@@ -38,26 +38,36 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
     }
 
     console.log("+-", "CREATE", type, "+-".repeat(80))
-    const typeObj = types.Server
-    const typeObj2 = types[type]
     const metas = types[type].instance
-    console.log("@@@ metas @@@")
-    const queue = []
+    const branches = this.branches = []
     for (const key in metas) {
-      const result = this.createFromMeta(key, metas[key], params)
-      if (result !== undefined) {
-        queue.push(result)
-        this[key] = result
+      const value = this.createFromMeta(key, metas[key], params)
+      if (value !== undefined) {
+        this[key] = value
       }
     }
-    console.log("@@@ data @@@")
+    console.log("@@@", this)
     for (const key in params) {
-      console.log(key)
+      if (key in metas === false) {
+        this.raise("tree_unknown_param", {path: path + "/" + key})
+      }
     }
   }
 
   created(params) {
+    const {branches, type} = this,
+        {types} = PreCore,
+        metas = types[type].instance
 
+    for (const key of branches) {
+      const meta = metas[key],
+          value = params[key]
+
+
+      console.log("+", key)
+      console.log("meta", meta)
+          console.log("value", value)
+    }
   }
 
   static validate(instance, path, meta, data) {
@@ -67,7 +77,8 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
       data = {type: data}
     }
 
-
+console.log("validate", path)
+    console.log("meta", meta)
     data = super.validate(instance, path, meta, data)
 
     if (data === undefined) {

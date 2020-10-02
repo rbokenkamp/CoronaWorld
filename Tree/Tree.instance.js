@@ -19,6 +19,8 @@ module.exports = {
     required: true,
   },
   branches: {
-    
+    type: "List",
+    item: "Text",
+    internal: true,
   }
 }

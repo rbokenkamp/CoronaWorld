@@ -1,14 +1,15 @@
-const PreCore = module.exports = {
-      classes: {},
-      types: {},
-      errors: {
+const Data = require("./Data/Data.cls.js"),
+    PreCore = module.exports = {
+      classes: new Data(),
+      types: new Data(),
+      errors: new Data({
         type_index_missing: "Type ${key} has no index file",
         type_cls_missing: "Type ${key} has no cls file",
         error_not_exists: "Error ${name} does not exist for ${path}",
         extended_class_not_found: "extended class ${key} does not exist for ${path}",
         type_no_params: "Type ${key} has no params at ${path}",
-      },
-      instances: {},
+      }),
+      instances: new Data(),
       getType: (value) => {
         if (value === null) {
           return "null"
