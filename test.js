@@ -1,7 +1,8 @@
-try {
-  require("./index")
-  console.log(".")
+const List = class extends Array {
+
 }
-catch (err) {
-  console.error(err)
-}
+
+const list = ["a", "b", "c"]
+
+list.__instance = new Tree()
+

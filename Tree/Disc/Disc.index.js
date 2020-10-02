@@ -1,4 +1,4 @@
 module.exports = {
-  type: "type",
+  type: "Type",
   extend: "Tree",
 }
