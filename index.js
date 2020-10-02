@@ -1,10 +1,1 @@
-global.PreCore = require("./PreCore")
-
-PreCore.classes.CoreError = require("./CoreError/CoreError.cls")
-PreCore.classes.Branch = require("./Branch/Branch.cls")
-PreCore.classes.Tree = require("./Tree/Tree.cls")
-PreCore.classes.Type = require("./Tree/Type/Type.cls")
-PreCore.classes.Module = require("./Tree/Module/Module.cls")
-PreCore.classes.Test = require("./Tree/Test/Test.cls")
-PreCore.classes.Core = module.exports = require("./Tree/Core/Core.cls")
-PreCore.classes.Disc = module.exports = require("./Tree/Disc/Disc.cls")
+require("./PreCore")

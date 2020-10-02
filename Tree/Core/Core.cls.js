@@ -18,7 +18,7 @@ module.exports = class extends PreCore.classes.Module {
   }
 
   initTypes() {
-    const {types, errors} = PreCore,
+    const {types, errors, merge} = PreCore,
         processing = Object.assign({}, types)
 
     let incomplete = true
@@ -40,7 +40,8 @@ module.exports = class extends PreCore.classes.Module {
 
         Object.assign(errors, type.errors)
         this.requireClass(key)
-        types[key] = extend ? PreCore.merge(types[extend], type) : type
+        type.metas = type.metas || {}
+        types[key] = extend ? merge(types[extend], type) : type
         delete processing[key]
       }
     }

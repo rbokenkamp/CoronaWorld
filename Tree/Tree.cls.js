@@ -31,6 +31,10 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
         id = params.id = Tree.index++,
         path = params.path = parent ? parent.path + "/" + params.key : ""
 
+    if (type === undefined) {
+      this.raise("branch_required", {path: path + "/type"})
+    }
+
     instances[id] = this
 
     if (type in classes === false) {
@@ -52,21 +56,62 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
         this.raise("tree_unknown_param", {path: path + "/" + key})
       }
     }
+    return this
+  }
+
+
+  branch(params) {
+    const {type, key} = params,
+        {classes, types} = PreCore
+
+    if (type in classes === false) {
+      this.raise("type_not_exists", {type, path: this.path + "/" + key})
+    }
+    if (key in this === true) {
+      return this[key].set(params)
+    }
+    params.parent = this
+
+    const branch = new classes[type]()
+    this[key] = branch.create(params)
+    branch.created()
+    return branch
+    //  const branch = this[key] = new
   }
 
   created(params) {
-    const {branches, type} = this,
-        {types} = PreCore,
-        metas = types[type].instance
+    const {branches} = this,
+        {types, classes, merge} = PreCore,
+        metas = types[this.type].instance
 
     for (const key of branches) {
       const meta = metas[key],
-          value = params[key]
+          {type} = meta,
+          {kind} = types[type]
 
+      console.log(key, kind)
 
-      console.log("+", key)
-      console.log("meta", meta)
-          console.log("value", value)
+      if (kind === "Tree") {
+        let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
+        if (value === undefined) {
+          continue
+        }
+        if (typeof value === "string") {
+          value = {type: value}
+        }
+        value.type = value.type || meta.type
+        value.key = key
+        this.branch(value)
+        return
+      }
+      let items = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
+      if (items === undefined) {
+        continue
+      }
+      let value = merge(meta, {key, items})
+      this.branch(value)
+
+      console.log(meta)
     }
   }
 
@@ -77,8 +122,6 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
       data = {type: data}
     }
 
-console.log("validate", path)
-    console.log("meta", meta)
     data = super.validate(instance, path, meta, data)
 
     if (data === undefined) {
