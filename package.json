@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "Core",
   "version": "0.0.0",
   "description": "Core Module",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rbokenkamp/core.git"
+    "url": "git+https://github.com/rbokenkamp/Core.git"
   },
   "keywords": [
     "JavaScript"
