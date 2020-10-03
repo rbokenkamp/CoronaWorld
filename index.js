@@ -1,9 +1,9 @@
-const home = __dirname+"/source"
-const {classes} = require(home+"/PreCore")
-classes.CoreError = require(home+"/CoreError/CoreError.cls")
-classes.Branch = require(home+"/Branch/Branch.cls.js")
-classes.Tree = require(home+"/Tree/Tree.cls")
-classes.Type = require(home+"/Tree/Type/Type.cls")
-classes.Test = require(home+"/Tree/Test/Test.cls")
-classes.Core = module.exports = require(home+"/Tree/Core/Core.cls")
-classes.Disc = module.exports = require(home+"/Tree/Disc/Disc.cls")
+const shared = __dirname + "/source/shared"
+const {classes} = require(__dirname + "/source" + "/PreCore")
+classes.CoreError = require(shared + "/CoreError/CoreError.cls")
+classes.Branch = require(shared + "/Branch/Branch.cls.js")
+classes.Tree = require(shared + "/Tree/Tree.cls")
+classes.Type = require(shared + "/Tree/Type/Type.cls")
+classes.Test = require(shared + "/Tree/Test/Test.cls")
+classes.Core = module.exports = require(shared + "/Tree/Core/Core.cls")
+classes.Disc = module.exports = require(shared + "/Tree/Disc/Disc.cls")

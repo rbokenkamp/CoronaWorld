@@ -67,8 +67,55 @@ global.PreCore = module.exports = {
         return false
       }
       return classes[typeA].prototype instanceof classes[typeB]
-    }
+    },
+    toString = PreCore.toString = value => {
+      return '"' +
+          value.replace(/\\/g, '\\\\')
+              .replace(/\"/g, '\\"')
+              .replace(/\n/g, "\\n")
+          + '"'
+    },
 
+    toSource = PreCore.toSource = value => {
+      if (value === null) {
+        return "null"
+      }
+      if (value === undefined) {
+        return "undefined"
+      }
+      const result = ""
+      const type = this.typeof(value)
+      if (type === "Object") {
+        let result = "{"
+        for (const name in value) {
+          result += (result === "{" ? "" : ",") + toString(name) + ":" + toSource(value[name])
+        }
+        result += "}"
+        return result
+      }
+      if (type === "Array") {
+        let result = "["
+        for (const v of value) {
+          result += (result === "[" ? "" : ",") + toSource(v)
+        }
+        return result + "]"
+      }
+      if (type === "Date") {
+        return "new Date(" + value.getTime() + ")"
+      }
+      if (type === "RegExp" || type === "function") {
+        return value.toString()
+      }
+      if (type === "Buffer") {
+        return "Buffer.from(\"" + value.toString("hex") + "\", \"hex\")"
+      }
+
+      if (type === "string") {
+        return toString(value)
+      }
+
+      return "" + value
+    }
 
 
 PreCore.types = {}
