@@ -3,7 +3,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
   createFromMeta(key, meta, params) {
     const {types, classes} = PreCore,
-        {branches} = this,
         {type, internal} = meta,
         {path} = params
 
@@ -14,7 +13,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     const {kind} = types[type]
 
     if (kind !== "Branch") {
-      branches.push(key)
       return
     }
 
@@ -28,7 +26,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         id = params.id = Tree.index++,
         path = params.path = parent ? parent.path + "/" + key : ""
 
-     if (type === undefined) {
+    if (type === undefined) {
       this.raise("branch_required", {path: path + "/type"})
     }
 
@@ -39,7 +37,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
 
     const metas = types[type].instance
-    const branches = this.branches = []
     for (const key in metas) {
       const value = this.createFromMeta(key, metas[key], params)
       if (value !== undefined) {
@@ -53,12 +50,11 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
     }
 
-   // this.created(params)
+    // this.created(params)
     return this
   }
 
   init(params) {
-
   }
 
   build(params) {
@@ -68,35 +64,22 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
   }
 
 
-  branch(params) {
-    const {type, key} = params,
-        {classes, types, instanceOf} = PreCore
-
-    if (type in classes === false) {
-      this.raise("type_not_exists", {type, path: this.path + "/" + key})
-    }
-    if (key in this === true) {
-      return this[key].set(params)
-    }
-    params.parent = this
-
-    const instance = core.instance(params)
-    return this[key] = instanceOf(instance, "Collection") ? instance.items : instance
-  }
-
   created(params) {
-     const {branches} = this,
-        {types, classes, merge} = PreCore,
+    const {types, classes, merge} = PreCore,
         metas = types[this.type].instance
 
-    for (const key of branches) {
+    for (const key in metas) {
       const meta = metas[key],
           {type} = meta,
           {kind} = types[type]
 
+      if (kind === "Branch") {
+        continue
+      }
+
       if (kind === "Tree") {
         let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
-         if (value === undefined) {
+        if (value === undefined) {
           continue
         }
         if (typeof value === "string") {
@@ -116,6 +99,23 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
   }
 
+  branch(params) {
+    const {type, key} = params,
+        {classes, types, instanceOf} = PreCore
+
+    if (type in classes === false) {
+      this.raise("type_not_exists", {type, path: this.path + "/" + key})
+    }
+    if (key in this === true) {
+      return this[key].set(params)
+    }
+    params.parent = this
+
+    const instance = core.instance(params)
+    return this[key] = instanceOf(instance, "Collection") ? instance.items : instance
+  }
+
+
   signal(name, params) {
     if (name in this) {
       this[name](params)
@@ -133,7 +133,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
           kind = types[type].kind
 
       if ((!internal) && kind !== "Branch") {
-       let target = this[key]
+        let target = this[key]
         target = "__instance" in target ? target.__instance : target
         target.signal(name, params)
       }
