@@ -88,8 +88,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
       if (kind === "Tree") {
         let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
-        console.log(key, value)
-        if (value === undefined) {
+         if (value === undefined) {
           continue
         }
         if (typeof value === "string") {
@@ -98,7 +97,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         value.type = value.type || meta.type
         value.key = key
         this.branch(value)
-        return
+        continue
       }
       let items = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
       if (items === undefined) {
