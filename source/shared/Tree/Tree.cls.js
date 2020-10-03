@@ -8,9 +8,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         {path} = params
 
     if (internal === true) {
-   //   Object.defineProperty(this, key, {
-   //     enumerable: false,
-   //   });
       return
     }
 
@@ -51,12 +48,14 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
     }
 
-   // console.log("@@@", this)
     for (const key in params) {
       if (key in metas === false) {
         this.raise("tree_unknown_param", {path: path + "/" + key})
       }
     }
+
+    this.init && this.init(params)
+    this.created(params)
     return this
   }
 
@@ -74,7 +73,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     params.parent = this
 
     const instance = core.instance(params)
-    return     this[key] = instanceOf(instance, "Collection") ? instance.items : instance
+    return this[key] = instanceOf(instance, "Collection") ? instance.items : instance
   }
 
   created(params) {
@@ -89,6 +88,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
       if (kind === "Tree") {
         let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
+        console.log(key, value)
         if (value === undefined) {
           continue
         }
@@ -124,7 +124,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       instance.raise("type_not_exists", {path, type})
     }
 
-     meta = types[type].metas
+    meta = types[type].metas
 
     for (const key in data) {
       if (key in meta === false) {
