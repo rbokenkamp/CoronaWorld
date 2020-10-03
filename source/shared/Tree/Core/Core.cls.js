@@ -85,9 +85,9 @@ module.exports = class Core extends PreCore.classes.Tree {
   requireClass(key) {
   }
 
-  instance(params) {
-    const cls = PreCore.classes[params.type],
-        branch = new cls()
+  instance(params, branch) {
+    const cls = PreCore.classes[params.type]
+        branch = branch || new cls()
     branch.create(params)
     return branch
   }

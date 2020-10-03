@@ -56,7 +56,7 @@
       core.paths = this.paths
       delete this.paths
       try {
-        core.create(params)
+        core.instance(params, core)
         console.log("@@@ core @@@", core)
         //core.schedule("/setBranch", "dashboard", dashboard)
         window.onresize = () => core.signal("draw")

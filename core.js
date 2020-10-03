@@ -9,7 +9,7 @@ global.core = new Server()
 
 try {
   const t0 = Date.now()
-  core.create(params)
+  core.instance(params, core)
  console.log("elapsed", Date.now() - t0)
   const release = () => core.signal("release")
   process.on("SIGINT", release)
