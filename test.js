@@ -9,3 +9,12 @@ Object.defineProperty(params, "test", {
 console.log(params)
 
 params.test = 18
+
+
+
+
+global.x = (global.x || 0) + 1
+if (x === 266) {
+  debugger
+}
+

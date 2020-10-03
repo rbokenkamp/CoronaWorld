@@ -70,24 +70,15 @@ global.PreCore = module.exports = {
     }
 
 
-classes.CoreError = require("./CoreError/CoreError.cls")
-classes.Branch = require("./Branch/Branch.cls.js")
-const Data = classes.Data = require("./Data/Data.cls.js")
 
-PreCore.types = new Data()
-PreCore.errors = new Data({
+PreCore.types = {}
+
+PreCore.errors = {
   type_index_missing: "Type ${key} has no index file",
   type_cls_missing: "Type ${key} has no cls file",
   error_not_exists: "Error ${name} does not exist for ${path}",
   extended_class_not_found: "extended class ${key} does not exist for ${path}",
   type_no_params: "Type ${key} has no params at ${path}",
   class_no_name: "Class ${key} must have a name",
-})
-PreCore.instances = new Data()
-
-classes.Tree = require("./Tree/Tree.cls")
-classes.Type = require("./Tree/Type/Type.cls")
-classes.Module = require("./Tree/Module/Module.cls")
-classes.Test = require("./Tree/Test/Test.cls")
-classes.Core = module.exports = require("./Tree/Core/Core.cls")
-classes.Disc = module.exports = require("./Tree/Disc/Disc.cls")
+}
+PreCore.instances = {}

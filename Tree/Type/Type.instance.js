@@ -2,7 +2,7 @@ module.exports = {
   extend: "Text",
   kind: {
     type: "Choice",
-    choices: ["Branch", "Collection", "Tree"],
+    choices: ["Branch", "Collection", "Tree", "Data", "Hash"],
     required: true,
   },
   cls: {
@@ -17,7 +17,7 @@ module.exports = {
     type: "Collection",
     item: "Meta",
   },
-  inner: {
+  instance: {
     type: "Collection",
     item: "Meta",
   },

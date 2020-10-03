@@ -1,7 +1,6 @@
 module.exports = class List extends PreCore.classes.Tree {
 
   static validate(instance, path, meta, data) {
-    console.log("@@@", path)
     const {classes, getType} = PreCore
     data = classes.Branch.validate(instance, path, meta, data)
     if (data === undefined) {
@@ -12,12 +11,13 @@ module.exports = class List extends PreCore.classes.Tree {
       instance.raise("list_not_an_array", {path})
     }
 
-    const {item, count} = meta
+    let {item, count} = meta
 
     if (count !== undefined && data.length !== count) {
       this.raise("list_invalid_count", {path: instance.path, expected: count, actual: data.length})
     }
 
+    item = typeof item === "string" ? {type: item} : item
     const {type} = item
 
     if (type in classes === false) {

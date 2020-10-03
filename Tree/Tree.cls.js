@@ -31,6 +31,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         id = params.id = Tree.index++,
         path = params.path = parent ? parent.path + "/" + key : ""
 
+
     if (type === undefined) {
       this.raise("branch_required", {path: path + "/type"})
     }
@@ -41,7 +42,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       this.raise("type_not_exists",)
     }
 
-    console.log("+-", "CREATE", key, "(", type, ")", "+-".repeat(80))
     const metas = types[type].instance
     const branches = this.branches = []
     for (const key in metas) {
@@ -63,7 +63,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
   branch(params) {
     const {type, key} = params,
-        {classes, types} = PreCore
+        {classes, types, instanceOf} = PreCore
 
     if (type in classes === false) {
       this.raise("type_not_exists", {type, path: this.path + "/" + key})
@@ -73,8 +73,8 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
     params.parent = this
 
-    return core.instance( params)
-    //  const branch = this[key] = new
+    const instance = core.instance(params)
+    return     this[key] = instanceOf(instance, "Collection") ? instance.items : instance
   }
 
   created(params) {
@@ -86,8 +86,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       const meta = metas[key],
           {type} = meta,
           {kind} = types[type]
-
-      console.log(key, kind)
 
       if (kind === "Tree") {
         let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
@@ -108,8 +106,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
       let value = merge(meta, {key, items})
       this.branch(value)
-
-      console.log(meta)
     }
   }
 
@@ -120,8 +116,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       data = {type: data}
     }
 
-    data = super.validate(instance, path, meta, data)
-
     if (data === undefined) {
       return
     }
@@ -130,8 +124,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       instance.raise("type_not_exists", {path, type})
     }
 
-    meta = types[type].metas
-
+     meta = types[type].metas
 
     for (const key in data) {
       if (key in meta === false) {

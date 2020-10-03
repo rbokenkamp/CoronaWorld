@@ -6,7 +6,7 @@ const Rule = module.exports = class Rule extends PreCore.classes.Branch {
       return
     }
 
-    if (PreCore.typeof(data) !== "RegExp") {
+    if (PreCore.getType(data) !== "RegExp") {
       instance.raise("rule_invalid_type", {path})
     }
     return data

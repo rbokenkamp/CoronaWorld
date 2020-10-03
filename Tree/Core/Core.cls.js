@@ -1,4 +1,4 @@
-module.exports = class Core extends PreCore.classes.Module {
+module.exports = class Core extends PreCore.classes.Tree {
 
 
   create(params) {
@@ -9,7 +9,7 @@ module.exports = class Core extends PreCore.classes.Module {
     params.errors = PreCore.errors
     params.types = PreCore.types
 
-    super.create(params)
+   super.create(params)
     /*
       Object.assign(this.instances, PreCore.instances)
      PreCore.instances = this.instances
@@ -63,7 +63,7 @@ module.exports = class Core extends PreCore.classes.Module {
 
   validateMetas() {
     const {types, classes} = PreCore
-    for (const key in classes) {
+     for (const key in classes) {
       const {metas, instance} = types[key]
       for (const name in metas) {
         metas[name] = types.Meta.cls.validate(this, "/types/" + key + "/metas/" + name, {

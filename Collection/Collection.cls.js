@@ -28,7 +28,6 @@ module.exports = class Collection extends PreCore.classes.Tree {
   }
 
   setItem(key, value, create) {
-
     const {types, getType} = PreCore,
         {path, item, items} = this,
         {type} = item,
@@ -47,7 +46,7 @@ module.exports = class Collection extends PreCore.classes.Tree {
         return
       }
 
-      this[key] = value
+      items[key] = value
       //@@@ TODO trigger set
       return
     }
