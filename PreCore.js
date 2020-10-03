@@ -82,3 +82,5 @@ PreCore.errors = {
   class_no_name: "Class ${key} must have a name",
 }
 PreCore.instances = {}
+
+PreCore.modules = {}
