@@ -40,6 +40,16 @@ const PreCore = module.exports = {
 
     classes = PreCore.classes = {},
 
+    limitKeys = PreCore.limitKeys = (params, keys) => {
+      const result = {}
+      for (const key in keys) {
+        if (key in params) {
+          result[key] = params[key]
+        }
+      }
+      return result
+    },
+    
     merge = PreCore.merge = (a, b) => {
       const {getType} = PreCore
       b = b === undefined ? {} : b

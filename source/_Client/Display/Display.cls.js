@@ -1,14 +1,19 @@
 const Display = module.exports = class Display extends PreCore.classes.Tree {
 
   create(params, options) {
-    super.create(params, options)
-    let {type, parentNode, tag, dataPath, node} = this
-    const parent = this.getDisplayParent()
+    let {type, parentNode} = params,
+        parent = this.getDisplayParent(params.parent)
+
     parentNode = parentNode ? parentNode : (parent && parent.node ? parent.node : document.body)
+
     const template = PreCore.templates[type]
     if (template) {
-      this.setTemplate(parentNode, template)
-    } else if (node === undefined) {
+      this.setTemplate(params, parentNode, template)
+    }
+
+    super.create(params, options)
+    let {tag, dataPath, node} = this
+    if (node === undefined) {
       this.node = Dom.create({
         parent: parentNode,
         tag: tag || "div",
@@ -23,30 +28,46 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     if (dataPath) {
       Dom.set(node, core.get(dataPath))
     }
+
   }
 
   init(params) {
     this.draw()
   }
 
-  setTemplate(parentNode, template) {
+  parseTemplate(params, node) {
+    const {types, limitKeys} = PreCore
+    for (const child of node.children) {
+      const childParams = Dom.getDataAttributes(child),
+          {key, type} = childParams
+      if (type && key) {
+        const metas = types[params.type].instance
+        console.log(type, metas)
+        if (key in metas === false) {
+          this.raise("tree_unknown_param", {path: ".../"+key})
+        }
+        params[key] = limitKeys(childParams, Object.keys(metas[key]))
+        continue
+      }
+      parseTemplate(params, node)
+    }
+  }
+
+  setTemplate(params, parentNode, template) {
     parentNode.insertAdjacentHTML("beforeend", template)
-    this.node = parentNode.children[parentNode.children.length - 1]
+    const node = this.node = parentNode.children[parentNode.children.length - 1]
+    this.parseTemplate(params, node)
+    //  for ()
 
   }
 
-  getDisplayParent() {
-    let current = this
+  getDisplayParent(current) {
     while (true) {
-      const {parent} = current
-      if (parent === undefined) {
-        return
-      }
-      if (parent.__inner) {
-        current = parent.__inner.parent
+      if (current.__instance) {
+        current = current.__instance.parent
         continue
       }
-      return parent
+      return current
     }
   }
 
