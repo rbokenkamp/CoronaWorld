@@ -1,8 +1,11 @@
-const List = class extends Array {
-
+const params = {
+  test: 17
 }
 
-const list = ["a", "b", "c"]
+Object.defineProperty(params, "test", {
+  enumerable: false,
+});
 
-list.__instance = new Tree()
+console.log(params)
 
+params.test = 18

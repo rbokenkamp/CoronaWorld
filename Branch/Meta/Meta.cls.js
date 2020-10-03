@@ -1,4 +1,4 @@
-const Meta = module.exports = class extends PreCore.classes.Branch {
+const Meta = module.exports = class Meta extends PreCore.classes.Branch {
 
   static validate(instance, path, meta, data) {
     const {classes, types} = PreCore,

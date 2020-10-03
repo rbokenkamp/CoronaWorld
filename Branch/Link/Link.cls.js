@@ -1,3 +1,3 @@
-module.exports = class extends PreCore.classes.Branch {
+module.exports = class Link extends PreCore.classes.Branch {
 
 }

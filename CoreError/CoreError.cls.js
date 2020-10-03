@@ -1,4 +1,4 @@
-module.exports = class extends Error {
+module.exports = class CoreError extends Error {
   constructor(message, code, params) {
     super(message)
     let stack, index

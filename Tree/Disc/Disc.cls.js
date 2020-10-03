@@ -1,3 +1,3 @@
-module.exports = class extends PreCore.classes.Tree {
+module.exports = class Disc extends PreCore.classes.Tree {
 
 }

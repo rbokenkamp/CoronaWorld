@@ -1,4 +1,4 @@
-module.exports = class {
+module.exports = class Branch {
 
   raise(name, params) {
     const {errors, classes} = PreCore

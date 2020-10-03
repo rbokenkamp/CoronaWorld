@@ -1,4 +1,4 @@
-module.exports = class extends PreCore.classes.Tree {
+module.exports = class Hash extends PreCore.classes.Tree {
 
   static validate(instance, path, meta, data) {
     data = super.validate(instance, path, meta, data)

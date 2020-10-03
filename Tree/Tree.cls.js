@@ -1,4 +1,4 @@
-const Tree = module.exports = class extends PreCore.classes.Branch {
+const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
 
   createFromMeta(key, meta, params) {
@@ -8,9 +8,9 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
         {path} = params
 
     if (internal === true) {
-      Object.defineProperty(this, key, {
-        enumerable: false,
-      });
+   //   Object.defineProperty(this, key, {
+   //     enumerable: false,
+   //   });
       return
     }
 
@@ -27,9 +27,9 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
   create(params) {
     const {classes, instances, types, getType} = PreCore
 
-    const {type, parent} = params,
+    const {type, parent, key} = params,
         id = params.id = Tree.index++,
-        path = params.path = parent ? parent.path + "/" + params.key : ""
+        path = params.path = parent ? parent.path + "/" + key : ""
 
     if (type === undefined) {
       this.raise("branch_required", {path: path + "/type"})
@@ -41,7 +41,7 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
       this.raise("type_not_exists",)
     }
 
-    console.log("+-", "CREATE", type, "+-".repeat(80))
+    console.log("+-", "CREATE", key, "(", type, ")", "+-".repeat(80))
     const metas = types[type].instance
     const branches = this.branches = []
     for (const key in metas) {
@@ -50,7 +50,8 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
         this[key] = value
       }
     }
-    console.log("@@@", this)
+
+   // console.log("@@@", this)
     for (const key in params) {
       if (key in metas === false) {
         this.raise("tree_unknown_param", {path: path + "/" + key})
@@ -72,10 +73,7 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
     }
     params.parent = this
 
-    const branch = new classes[type]()
-    this[key] = branch.create(params)
-    branch.created()
-    return branch
+    return core.instance( params)
     //  const branch = this[key] = new
   }
 
@@ -155,6 +153,9 @@ const Tree = module.exports = class extends PreCore.classes.Branch {
         continue
       }
 
+      if (key === "choices") {
+        const x = 1
+      }
       const result = types[itemType].cls.validate(instance, path + "/" + key, itemMeta, data[key])
       if (result !== undefined) {
         data[key] = result

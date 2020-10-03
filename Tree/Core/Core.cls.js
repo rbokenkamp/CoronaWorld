@@ -1,9 +1,9 @@
-module.exports = class extends PreCore.classes.Module {
+module.exports = class Core extends PreCore.classes.Module {
 
 
   create(params) {
+    this.initClasses()
     this.initTypes()
-
     this.validateMetas()
 
     params.errors = PreCore.errors
@@ -15,6 +15,20 @@ module.exports = class extends PreCore.classes.Module {
      PreCore.instances = this.instances
      PreCore.core = this
  */
+  }
+
+  initClasses() {
+    const {classes} = PreCore
+    for (const key in classes) {
+      const cls = classes[key]
+      if (typeof cls !== "function" || cls.toString().indexOf("class") !== 0) {
+        this.raise("type_not_a_class", {path: key})
+      }
+
+      if (cls.name !== key) {
+        this.raise("class_no_name", {key})
+      }
+    }
   }
 
   initTypes() {
@@ -70,6 +84,13 @@ module.exports = class extends PreCore.classes.Module {
   requireClass(key) {
   }
 
+  instance(params) {
+    const cls = PreCore.classes[params.type],
+        branch = new cls()
+    branch.create(params)
+    branch.created(params)
+    return branch
+  }
 }
 
 /*

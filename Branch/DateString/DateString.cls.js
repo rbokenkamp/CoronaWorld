@@ -1,4 +1,4 @@
-module.exports = class extends PreCore.classes.Text {
+module.exports = class DateString extends PreCore.classes.Text {
 
   static validate(instance, path, meta, data) {
     meta.rule = /^\d{4}-\d{2}-\d{2}$/
