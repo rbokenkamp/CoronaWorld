@@ -1,5 +1,5 @@
-const shared = __dirname + "/source/shared"
-const {classes} = require(__dirname + "/source" + "/PreCore")
+const shared = __dirname + "/source/shared",
+    {classes} = global.PreCore = require(__dirname + "/source" + "/PreCore")
 classes.CoreError = require(shared + "/CoreError/CoreError.cls")
 classes.Branch = require(shared + "/Branch/Branch.cls.js")
 classes.Tree = require(shared + "/Tree/Tree.cls")

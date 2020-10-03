@@ -1,35 +1,7 @@
-const PreCore = module.exports = {
+global.PreCore = module.exports = {
+  lz: x => x > 9 ? "" + x : "0" + x,
 
-      lz: x => x > 9 ? "" + x : "0" + x,
-
-    },
-
-    set = PreCore.set = (path, value) => {
-      const parts = path.split("/"),
-          last = parts.length - 1
-
-      let current = PreCore
-      for (let i = 1; i < last; i++) {
-        const part = parts[i]
-        current = current[part] = part in current ? current[part] : {}
-      }
-      current[parts[last]] = value
-    },
-
-    get = PreCore.get = path => {
-      const parts = path.split("/")
-
-      let current = PreCore
-      for (let i = 1; i < parts.length; i++) {
-        const part = parts[i]
-        if (part in current === false) {
-          return
-        }
-        current = current[part]
-      }
-      return current
-    },
-
+},
     getType = PreCore.getType = (value) => {
       if (value === null) {
         return "null"

@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Inconsolata, Monaco, "Andale Mono", monospace;
+}
+
+[data-event] {
+  cursor: pointer;
+}

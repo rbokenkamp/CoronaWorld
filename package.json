@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/rbokenkamp/core/issues"
   },
-  "homepage": "https://github.com/rbokenkamp/core#readme"
+  "homepage": "https://github.com/rbokenkamp/core#readme",
+  "dependencies": {
+    "sass": "^1.26.11"
+  }
 }

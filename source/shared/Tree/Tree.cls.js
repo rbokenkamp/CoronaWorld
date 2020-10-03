@@ -28,7 +28,9 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         id = params.id = Tree.index++,
         path = params.path = parent ? parent.path + "/" + key : ""
 
-
+    if (PreCore.instanceOf(this, "Display")) {
+      console.log("@@@ CREATE @@@", path)
+    }
     if (type === undefined) {
       this.raise("branch_required", {path: path + "/type"})
     }
@@ -77,6 +79,9 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
   }
 
   created(params) {
+    if (PreCore.instanceOf(this, "Display")) {
+      console.log("--- CREATED --", this.path)
+    }
     const {branches} = this,
         {types, classes, merge} = PreCore,
         metas = types[this.type].instance
@@ -107,6 +112,31 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       this.branch(value)
     }
   }
+
+  signal(name, params) {
+    if (name in this) {
+      this[name](params)
+    }
+
+    const {types} = PreCore,
+        metas = types[this.type].instance
+
+    for (const key in this) {
+      if (key in metas === false) {
+        //  console.log("+-".repeat(3), (this.path) + "/" + key, "not in metas")
+        continue
+      }
+      const {type, internal} = metas[key],
+          kind = types[type].kind
+
+      if ((!internal) && kind !== "Branch") {
+       let target = this[key]
+        target = "__instance" in target ? target.__instance : target
+        target.signal(name, params)
+      }
+    }
+  }
+
 
   static validate(instance, path, meta, data) {
     const {types} = PreCore

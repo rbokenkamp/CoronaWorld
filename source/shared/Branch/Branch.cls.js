@@ -32,6 +32,10 @@ module.exports = class Branch {
     }
   }
 
+  release() {
+    console.log("release", "__instance" in this ? this.__instance.path : this.path)
+  }
+
   static validate(instance, path, meta, data) {
     const {required, defaultValue} = meta
 

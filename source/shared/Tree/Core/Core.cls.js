@@ -5,6 +5,7 @@ module.exports = class Core extends PreCore.classes.Tree {
     this.initClasses()
     this.initTypes()
     this.validateMetas()
+    console.log("VALIDATED")
 
     params.errors = PreCore.errors
     params.types = PreCore.types
