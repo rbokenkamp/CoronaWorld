@@ -1,6 +1,7 @@
 module.exports = class Dashboard extends PreCore.classes.Display {
 
-  created(params) {
-      this.branch({type: "Widget", key: "widget"})
+  create(params) {
+    params.widget = {type: "Widget"}
+    super.create(params)
   }
 }

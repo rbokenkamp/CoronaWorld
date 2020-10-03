@@ -1,9 +1,7 @@
 const Display = module.exports = class Display extends PreCore.classes.Tree {
 
   create(params, options) {
-    console.log(">", params.key)
     super.create(params, options)
-    console.log("<", params.key)
     let {type, parentNode, tag, dataPath, node} = this
     const parent = this.getDisplayParent()
     parentNode = parentNode ? parentNode : (parent && parent.node ? parent.node : document.body)
@@ -22,14 +20,13 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     Dom.setTypes(node, types)
     Dom.setAttributes(node, {"id": "d" + this.id})
 
-    console.log("+-".repeat(11), "DISPLAYED", this.path)
-    setTimeout(() => {
-      this.draw()
-    })
-
     if (dataPath) {
       Dom.set(node, core.get(dataPath))
     }
+  }
+
+  init(params) {
+    this.draw()
   }
 
   setTemplate(parentNode, template) {
