@@ -84,7 +84,7 @@ global.PreCore = module.exports = {
         return "undefined"
       }
       const result = ""
-      const type = this.typeof(value)
+      const type = getType(value)
       if (type === "Object") {
         let result = "{"
         for (const name in value) {
