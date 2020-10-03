@@ -49,7 +49,7 @@ const PreCore = module.exports = {
       }
       return result
     },
-    
+
     merge = PreCore.merge = (a, b) => {
       const {getType} = PreCore
       b = b === undefined ? {} : b
