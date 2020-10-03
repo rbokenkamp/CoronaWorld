@@ -50,7 +50,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
     }
 
-    // this.created(params)
     return this
   }
 
