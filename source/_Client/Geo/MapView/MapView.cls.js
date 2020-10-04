@@ -29,39 +29,4 @@ module.exports = class MapView extends PreCore.classes.Widget {
       }
     }
   }
-
-  draw() {
-    super.draw()
-    return
-      const {node, x, y, scale} = this,
-        {clientWidth, clientHeight} = node,
-        {width, height} = MapView,
-        scaleWidth = clientWidth / width,
-        scaleHeight = clientHeight / height,
-        viewScale = this.viewScale = scaleWidth < scaleHeight ? scaleWidth : scaleHeight,
-        realScale = scale * viewScale,
-    //    dx = (clientWidth - (x + 1) * width) / 2 * realScale,
-    //    dy = (clientHeight - (y + 1) * height) / 2 * realScale,
-          dx=0,
-          dy=0,
-        strokeWidth = Math.min(1, 1 / realScale)
-
-    console.log({clientWidth, clientHeight, viewScale})
-    console.log("draw", `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`)
-    Dom.style(node, {
-      transform: `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`
-    })
-
-    this.setStyle(`
-.MapView path {
-    stroke-width: ${strokeWidth}px;
-}
-
-.MapView path.selected {
-    stroke-width: ${2 * strokeWidth}px;
-}
-`)
-  }
-
-
 }

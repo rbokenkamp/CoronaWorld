@@ -1,7 +1,11 @@
 const Display = module.exports = class Display extends PreCore.classes.Tree {
 
-  create(params, options) {
+  create(params) {
     console.log("CREATE", params)
+    super.create(params)
+    if (params.type === "DataValue") {
+   //   debugger
+    }
     let {type, parentNode} = params,
         parent = this.getDisplayParent(params.parent)
 
@@ -12,7 +16,6 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
       this.setTemplate(params, parentNode, template)
     }
 
-    super.create(params, options)
     let {tag, dataPath, node} = this
     if (node === undefined) {
       this.node = Dom.create({
@@ -44,7 +47,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
       if (type && key) {
         const metas = types[params.type].instance
         if (key in metas === false) {
-          this.raise("tree_unknown_param", {path: ".../"+key})
+          this.raise("tree_unknown_param", {path: this.path + key})
         }
         childParams.node = child
         params[key] = childParams
@@ -63,12 +66,12 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   }
 
   getDisplayParent(current) {
-    while (true) {
-      if (current.__instance) {
-        current = current.__instance.parent
+    while (current) {
+      if (PreCore.instanceOf(current, "Display")) {
+        return current
         continue
       }
-      return current
+      current = current.parent
     }
   }
 

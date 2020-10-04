@@ -29,9 +29,10 @@ const Dom = {
   getParams: node => {
     const result = {}
     for (const attributes of node.attributes) {
-      const {nodeName, nodeValue} = attributes
+      let {nodeName, nodeValue} = attributes
       if (nodeName.indexOf("params-") === 0) {
-        result[nodeName.substr(7)] = nodeValue
+        nodeName = nodeName.substr(7).replace(/_(.)/g, (_, c) => c.toUpperCase())
+        result[nodeName] = nodeValue
       }
     }
     return result

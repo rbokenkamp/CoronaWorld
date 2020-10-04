@@ -30,6 +30,18 @@ const PreCore = module.exports = {
       return current
     },
 
+    isObject = PreCore.isObject = value => {
+      if (value === null) {
+        return false
+      }
+      if (typeof value !== "object") {
+        return false
+      }
+      if (value instanceof Array || value instanceof Date || value instanceof Buffer || value instanceof RegExp) {
+        return false
+      }
+      return true
+    },
     getType = PreCore.getType = (value) => {
       if (value === null) {
         return "null"

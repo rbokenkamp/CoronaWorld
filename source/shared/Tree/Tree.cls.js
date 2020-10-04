@@ -53,13 +53,11 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     return this
   }
 
-  init(params) {
-  }
-
   build(params) {
     this.create(params)
-    this.init(params)
+    this.init && this.init(params)
     this.created(params)
+    this.run && this.run()
   }
 
 
@@ -143,6 +141,28 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
   }
 
+
+  getBranch(key) {
+    return this.__instance ? this.__instance[key] : this[key]
+  }
+
+  get(path) {
+    if (path === undefined || path === "") {
+      return this
+    }
+
+    const parts = path.split("/")
+    let current = this
+    for (let i = 1; i < parts.length; i++) {
+      const part = parts[i]
+      if (part in current === false) {
+        return
+      }
+      current = current[part]
+    }
+    return current
+
+  }
 
   static validate(instance, path, meta, data) {
     const {types} = PreCore
