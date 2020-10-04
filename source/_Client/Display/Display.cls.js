@@ -1,10 +1,9 @@
 const Display = module.exports = class Display extends PreCore.classes.Tree {
 
   create(params) {
-    console.log("CREATE", params)
     super.create(params)
     if (params.type === "DataValue") {
-   //   debugger
+      //   debugger
     }
     let {type, parentNode} = params,
         parent = this.getDisplayParent(params.parent)
@@ -13,7 +12,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
     const template = PreCore.templates[type]
     if (template) {
-      this.setTemplate(params, parentNode, template)
+      this.setTemplate(params, parentNode, template, params.node)
     }
 
     let {tag, dataPath, node} = this
@@ -29,13 +28,9 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     Dom.setTypes(node, types)
     Dom.setAttributes(node, {"id": "d" + this.id})
 
-    if (dataPath) {
-      Dom.set(node, core.get(dataPath))
-    }
-
   }
 
-  init(params) {
+  run(params) {
     this.draw()
   }
 
@@ -47,22 +42,28 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
       if (type && key) {
         const metas = types[params.type].instance
         if (key in metas === false) {
-          this.raise("tree_unknown_param", {path: this.path + key})
+          this.raise("tree_unknown_param", {path: this.path + "/" + key})
         }
         childParams.node = child
         params[key] = childParams
         continue
       }
-      parseTemplate(params, node)
+       this.parseTemplate(params, child)
     }
   }
 
-  setTemplate(params, parentNode, template) {
-    parentNode.insertAdjacentHTML("beforeend", template)
-    const node = this.node = parentNode.children[parentNode.children.length - 1]
-    this.parseTemplate(params, node)
-    //  for ()
+  setTemplate(params, parentNode, template, templateNode) {
+    if (templateNode) {
+      templateNode.innerHTML = template
+      const node = templateNode.children[templateNode.children.length - 1]
+      templateNode.removeChild(node)
+      templateNode.innerHTML = node.innerHTML
+    } else {
+      parentNode.insertAdjacentHTML("beforeend", template)
+      const node = this.node = parentNode.children[parentNode.children.length - 1]
+    }
 
+    this.parseTemplate(params, this.node)
   }
 
   getDisplayParent(current) {

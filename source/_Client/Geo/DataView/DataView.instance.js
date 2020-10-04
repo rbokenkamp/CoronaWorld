@@ -7,9 +7,14 @@ module.exports = {
     type: "Integer",
     defaultValue: 0,
   },
-   nodes: {
+  columns: {
     type: "Collection",
-    item: "DataValue",
+    item: "Column",
+    defaultValue: {},
+  },
+  nodes: {
+    type: "Collection",
+    item: "Display",
     defaultValue: {},
   },
 }

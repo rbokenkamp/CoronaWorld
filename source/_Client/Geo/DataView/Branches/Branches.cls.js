@@ -1,4 +1,4 @@
-module.exports = class DataBranches extends PreCore.classes.Display {
+module.exports = class Branches extends PreCore.classes.Display {
 
 create(params) {
   params.tag = "svg"

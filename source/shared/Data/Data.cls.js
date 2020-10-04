@@ -7,4 +7,9 @@ module.exports = class Data extends PreCore.classes.Branch {
   setItem(key, value) {
     return this.__instance.setItem(key, value)
   }
+
+  getInstance() {
+    return this.__instance
+  }
+
 }

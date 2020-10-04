@@ -3,9 +3,5 @@ module.exports = {
     type: "Path",
     defaultValue: "",
   },
-  level: {
-    type: "Integer",
-    defaultValue: 0,
-  }
 }
 

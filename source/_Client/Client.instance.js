@@ -8,7 +8,7 @@ module.exports = {
     item: "Text",
   },
   display: {
-    type: "Dashboard",
+    type: "Layout",
     defaultValue: {},
   }
  // dashboard: "Display",

@@ -75,7 +75,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
 
       if (key === "background") {
-       // debugger;
+        // debugger;
       }
 
       if (kind === "Tree") {
@@ -144,6 +144,10 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
   getBranch(key) {
     return this.__instance ? this.__instance[key] : this[key]
+  }
+
+  getInstance() {
+    return this
   }
 
   get(path) {

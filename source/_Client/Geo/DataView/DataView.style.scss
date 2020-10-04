@@ -2,11 +2,53 @@
 
 .DataView {
   background: $black;
-  width: 1000px;
-  height: 1000px;
+   color: $blue;
+  font-size: 8px;
+  display: flex;
 
-  text {
-    font-size: 16px;
-    fill: hsla(0, 100%, 50%, 1)
+  .Row {
+    border: 1px solid $green;
+    display: flex;
+
+    div {
+      padding: 3px 5px;
+    }
+  }
+
+  .TreeView {
+   }
+
+  .Tree {
+    color: $orange;
+  }
+
+  .Column {
+
+    border: 10px solid gold;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .Item {
+      color: hsla(0, 100%, 50%, 1);
+      background: hsla(0, 100%, 50%, .17);
+    }
+  }
+
+  .Key {
+    color: $orange;
+  }
+
+  .Integer, .Real {
+    color: $blue;
+  }
+
+  .Text {
+    color: $green;
+  }
+
+  .Collection {
+    color: $purple;
   }
 }

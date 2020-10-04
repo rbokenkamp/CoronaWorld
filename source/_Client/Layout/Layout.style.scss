@@ -1,0 +1,45 @@
+@import "colors";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #444;
+}
+
+.Layout {
+  width: 375px;
+  height: 667px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.Map {
+  flex: 0 0 100px;
+  background: black;
+  color: hsla(0, 100%, 50%, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.Menu {
+  border: 1px solid $blue;
+  background: $blue;
+  color: white;
+  padding: 5px 10px;
+}
+
+.Timeline {
+  border: 1px solid $orange;
+  color: $orange;
+  padding: 5px 10px;
+}
+
+.ListView {
+  background: white;
+  color: $blue;
+  border: 1px solid white;
+  flex: 1 0 auto;
+}
