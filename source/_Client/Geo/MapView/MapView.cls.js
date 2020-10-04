@@ -1,7 +1,6 @@
-const MapView = module.exports = class MapView extends PreCore.classes.Widget {
+module.exports = class MapView extends PreCore.classes.Widget {
 
   create(params) {
-    console.log("CREATE", params)
     super.create(params)
     this.paths = {}
     this.initMap()
@@ -10,9 +9,7 @@ const MapView = module.exports = class MapView extends PreCore.classes.Widget {
   initMap() {
     const {node, paths} = this,
         {countries} = PreCore.data,
-        {width, height} = MapView
-//        svg = this.svg = Dom.create({parent: node, tag: "svg"})
-    Dom.setAttributes(node, {width, height})
+        {clientWidth, clientHeight} = node
 
     for (const alpha2 in countries) {
       const countryPaths = paths[alpha2] = [],
@@ -23,8 +20,8 @@ const MapView = module.exports = class MapView extends PreCore.classes.Widget {
         countryPaths.push(path)
         let d = ""
         for (const point of shape) {
-          const x = (point[0] + 1) * width / 2,
-              y = (point[1] + 1) * height / 2
+          const x = (point[0] + 1) * clientWidth / 2,
+              y = (point[1] + 1) * clientHeight / 2
           d += `${d === "" ? "M" : " L"} ${x} ${y}`
         }
 
@@ -34,28 +31,33 @@ const MapView = module.exports = class MapView extends PreCore.classes.Widget {
   }
 
   draw() {
+    super.draw()
     return
-    const {node, x, y, scale} = this,
-        {offsetWidth, offsetHeight} = node,
-        {width, height} = Map,
-        scaleWidth = offsetWidth / width,
-        scaleHeight = offsetHeight / height,
+      const {node, x, y, scale} = this,
+        {clientWidth, clientHeight} = node,
+        {width, height} = MapView,
+        scaleWidth = clientWidth / width,
+        scaleHeight = clientHeight / height,
         viewScale = this.viewScale = scaleWidth < scaleHeight ? scaleWidth : scaleHeight,
         realScale = scale * viewScale,
-        dx = (offsetWidth - (x + 1) * width) / 2 * realScale,
-        dy = (offsetHeight - (y + 1) * height) / 2 * realScale,
+    //    dx = (clientWidth - (x + 1) * width) / 2 * realScale,
+    //    dy = (clientHeight - (y + 1) * height) / 2 * realScale,
+          dx=0,
+          dy=0,
         strokeWidth = Math.min(1, 1 / realScale)
 
+    console.log({clientWidth, clientHeight, viewScale})
+    console.log("draw", `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`)
     Dom.style(node, {
       transform: `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`
     })
 
     this.setStyle(`
-.Map path {
+.MapView path {
     stroke-width: ${strokeWidth}px;
 }
 
-.Map path.selected {
+.MapView path.selected {
     stroke-width: ${2 * strokeWidth}px;
 }
 `)
@@ -63,6 +65,3 @@ const MapView = module.exports = class MapView extends PreCore.classes.Widget {
 
 
 }
-
-MapView.width = 2058
-MapView.height = 1036
