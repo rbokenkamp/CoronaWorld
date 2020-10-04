@@ -26,6 +26,16 @@ const Dom = {
     }
     return result
   },
+  getParams: node => {
+    const result = {}
+    for (const attributes of node.attributes) {
+      const {nodeName, nodeValue} = attributes
+      if (nodeName.indexOf("params-") === 0) {
+        result[nodeName.substr(7)] = nodeValue
+      }
+    }
+    return result
+  },
   getEvent: node => {
     const params = Dom.getDataAttributes(node),
         {event} = params

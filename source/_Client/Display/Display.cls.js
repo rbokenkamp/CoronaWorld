@@ -1,6 +1,7 @@
 const Display = module.exports = class Display extends PreCore.classes.Tree {
 
   create(params, options) {
+    console.log("CREATE", params)
     let {type, parentNode} = params,
         parent = this.getDisplayParent(params.parent)
 
@@ -36,16 +37,17 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   }
 
   parseTemplate(params, node) {
-    const {types, limitKeys} = PreCore
+    const {types} = PreCore
     for (const child of node.children) {
-      const childParams = Dom.getDataAttributes(child),
+      const childParams = Dom.getParams(child),
           {key, type} = childParams
       if (type && key) {
         const metas = types[params.type].instance
         if (key in metas === false) {
           this.raise("tree_unknown_param", {path: ".../"+key})
         }
-        params[key] = limitKeys(childParams, Object.keys(metas[key]))
+        childParams.node = child
+        params[key] = childParams
         continue
       }
       parseTemplate(params, node)

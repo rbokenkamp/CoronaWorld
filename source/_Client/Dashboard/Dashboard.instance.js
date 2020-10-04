@@ -1,4 +1,4 @@
 module.exports = {
-  widget: "Widget",
+  background: "Display",
 }
 

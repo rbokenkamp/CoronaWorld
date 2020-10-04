@@ -1,0 +1,21 @@
+@import "colors";
+
+.MapView {
+  height: 100%;
+  background: black;
+
+  path {
+    stroke: hsla(0, 100%, 50%, 1);
+    fill: hsla(0, 100%, 50%, .3);
+    stroke-width: 1px;
+  }
+
+  path.selected {
+
+    stroke: gold;
+    fill: rgba(255, 215, 0, .2);
+    z-index: 100;
+  }
+
+  cursor: pointer;
+}
