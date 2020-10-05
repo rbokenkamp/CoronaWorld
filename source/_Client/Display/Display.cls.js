@@ -31,7 +31,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   }
 
   init(params) {
-    this.draw()
+    setTimeout(() => this.draw())
   }
 
   parseTemplate(params, node) {
@@ -108,7 +108,8 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     for (const key in vars) {
       const child = node.querySelector(`.data-${key}`)
       if (child) {
-        Dom.set(child, vars[key])
+        const value = vars[key]
+        Dom.set(child, value === undefined ? "" : value)
 
       } else {
         this.raise("display_var_not_found", {path: this.path, key})

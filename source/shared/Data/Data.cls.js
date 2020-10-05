@@ -8,6 +8,14 @@ module.exports = class Data extends PreCore.classes.Branch {
     return this.__instance.setItem(key, value)
   }
 
+  branch(params) {
+    return this.__instance.setItem(params.key, params)
+  }
+
+  getCount() {
+    return Object.keys(this).length
+  }
+
   getInstance() {
     return this.__instance
   }

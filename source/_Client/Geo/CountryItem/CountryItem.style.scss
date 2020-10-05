@@ -1,0 +1,16 @@
+.CountryItem {
+  width: 100%;
+  display: flex;
+
+  span {
+    display: inline-block;
+    padding: 3px 5px;
+    white-space: nowrap;
+  }
+
+  .Row-Name {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
+}

@@ -57,7 +57,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     this.create(params)
     this.init && this.init(params)
     this.created(params)
-    this.run && this.run()
   }
 
 

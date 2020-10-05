@@ -11,21 +11,28 @@ module.exports = class Layout extends PreCore.classes.Display {
     let dragTarget
     let dragging
     let position
+    let previous
+
     node.onmousedown = e => {
       const {target, clientX, clientY} = e
       const draggable = Dom.getParent(target, "Draggable")
-
       dragging = false
       dragTarget = draggable ? draggable.__display : undefined
-      position = [clientX, clientY]
+      previous = position = [clientX, clientY]
     }
 
     window.onmousemove = e => {
       if (position) {
         const {clientX, clientY} = e
         const dx = clientX - position[0],
-            dy = clientY - position[1]
+            dy = clientY - position[1],
+            ddx = clientX - previous[0],
+            ddy = clientY - previous[1]
 
+        previous = [clientX, clientY]
+        if (dragTarget === undefined) {
+          return
+        }
         if (dragging === false) {
           if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
             dragging = true
@@ -33,13 +40,21 @@ module.exports = class Layout extends PreCore.classes.Display {
           }
         }
         if (dragging && dragTarget) {
-          dragTarget.drag && dragTarget.drag(dx, dy)
+          dragTarget.drag && dragTarget.drag(dx, dy, ddx, ddy)
         }
       }
     }
 
     window.onmouseup = e => {
+      const {target} = e
       position = undefined
+      if (dragging === false) {
+        const [instance, event, params] = Dom.getEvent(target)
+        if (event) {
+          instance[event](params)
+        }
+        return
+      }
       if (dragTarget) {
         dragTarget.dragStop && dragTarget.dragStop()
       }

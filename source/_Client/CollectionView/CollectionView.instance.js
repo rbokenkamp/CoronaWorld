@@ -3,5 +3,10 @@ module.exports = {
     type: "Path",
     defaultValue: "",
   },
+  items: {
+    type: "Collection",
+    item: "Display",
+    defaultValue: {},
+  },
 }
 

@@ -33,7 +33,7 @@ const Dom = {
     if (node.classList.contains(type)) {
       return node
     }
-    Dom.getParent(node.parentNode, type)
+    return Dom.getParent(node.parentNode, type)
   },
   getParams: node => {
     const result = {}

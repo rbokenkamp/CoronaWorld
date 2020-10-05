@@ -17,6 +17,7 @@ module.exports = class Menu extends PreCore.classes.Display {
       this.y = Math.min(this.dragY + dy / height, 1)
     }
     this.draw()
+    core.events.trigger({event: "menu-move"})
   }
 
   draw() {

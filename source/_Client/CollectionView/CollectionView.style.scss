@@ -1,7 +1,23 @@
 @import "colors";
 
 .CollectionView {
-  border: 10px solid $purple;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  height: 100%;
+
+  &.NoData {
+    align-items: center;
+    justify-content: center;
+    color: $grey;
+
+  }
+
+  .CollectionViewItem {
+    border-bottom: 1px solid lightblue;
+  }
+  .CollectionViewItem.selected {
+    background: $orange;
+    color: white;
+  }
 }
+

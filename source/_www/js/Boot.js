@@ -69,6 +69,7 @@
         }
         const {message, code, params, path, line, column, trace} = err
         console.log("@@@ error @@@", {message, code, params, path, line, column, trace})
+        PostCore.log({message, code, params, path, line, column, trace})
 
       }
     }
