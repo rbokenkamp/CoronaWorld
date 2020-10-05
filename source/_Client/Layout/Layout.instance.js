@@ -7,8 +7,9 @@ module.exports = {
   },
   body: {
     type: "ListView",
- },
+  },
   timeline: {
     type: "Timeline",
-  }
+  },
+  landscape: "Boolean"
 }
