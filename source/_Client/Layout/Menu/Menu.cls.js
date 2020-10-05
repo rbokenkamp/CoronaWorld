@@ -17,9 +17,15 @@ module.exports = class Menu extends PreCore.classes.Display {
       this.y = Math.min(this.dragY + dy / height, 1)
     }
 
-    PostCore.log({y: this.y})
-    this.draw()
-    core.events.trigger({event: "menu-move"})
+
+    if (this.timeout) {
+      return
+    }
+    this.timeout = setTimeout(() => {
+      core.events.trigger({event: "menu-move"})
+      this.draw()
+      this.timeout = undefined
+    }, 100)
   }
 
   draw() {
