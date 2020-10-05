@@ -113,9 +113,9 @@ module.exports = class Layout extends PreCore.classes.Display {
   }
 
   draw() {
-    const {node} = this,
-        {offsetWidth, offsetHeight} = node
-    const landscape = this.landscape = offsetWidth > offsetHeight
+    const {node} = this
+
+    const landscape = this.landscape = innerWidth > innerHeight
     Dom[(landscape ? "add" : "remove") + "Type"](node, "Landscape")
   }
 

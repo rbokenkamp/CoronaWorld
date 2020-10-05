@@ -18,4 +18,8 @@ module.exports = {
     type: "Integer",
     required: true,
   },
+  listens: {
+    type: "List",
+    internal: true,
+  }
 }

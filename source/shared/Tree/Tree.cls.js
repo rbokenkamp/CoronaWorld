@@ -31,6 +31,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
 
     instances[id] = this
+    this.listeners = []
 
     if (type in classes === false) {
       this.raise("type_not_exists",)
@@ -58,7 +59,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     this.init && this.init(params)
     this.created(params)
   }
-
 
   created(params) {
     const {types, classes, merge} = PreCore,
@@ -161,6 +161,20 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
     return current
 
+  }
+
+  listen(filter, handler, once) {
+    const id = core.events.listen(filter, handler, once)
+    this.listeners.push(id)
+  }
+
+
+  release() {
+    const {listeners} = this,
+        {events} = core
+    for (const id of listeners) {
+      events.unlisten(id)
+    }
   }
 
   static validate(instance, path, meta, data) {

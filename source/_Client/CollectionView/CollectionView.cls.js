@@ -39,8 +39,11 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       }, 100)
     }
 
-    core.events.listen({event: "menu-move"}, () => {
+    this.listen({event: "menu-move"}, () => {
       this.draw()
+    })
+    this.listen({event: "collection-select"}, ({key}) => {
+      this.setSelected(key)
     })
   }
 
@@ -74,14 +77,16 @@ width: ${max[i]}px;
 
   select(params) {
     const {key} = params
+    core.events.trigger({event: "collection-select", key})
+  }
 
+  setSelected(key) {
     const index = this.data.findIndex(value => value.key === key)
     this.selectedIndex = index
     this.draw()
   }
 
   drag(dx, dy, ddx, ddy) {
-    PostCore.log({dy, ddy})
     const {data} = this
     let index = this.wheelIndex + ddy
     index = index < 0 ? index + data.length : index
