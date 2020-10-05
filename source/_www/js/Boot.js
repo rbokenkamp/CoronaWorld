@@ -55,6 +55,7 @@
       window.core = new PreCore.classes[type]()
       core.paths = this.paths
       delete this.paths
+      params.countries = PreCore.data.countries
       try {
         core.instance(params, core)
         console.log("@@@ core @@@", core)

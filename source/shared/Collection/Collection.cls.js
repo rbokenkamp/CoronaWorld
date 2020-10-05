@@ -3,7 +3,7 @@ module.exports = class Collection extends PreCore.classes.Tree {
   create(params) {
     const {instanceOf, classes} = PreCore
     super.create(params)
-    //  params.items
+      //  params.items
     return this.items
   }
 
@@ -11,7 +11,10 @@ module.exports = class Collection extends PreCore.classes.Tree {
     const {items} = params,
         {classes, instanceOf} = PreCore
 
-     const data = this.items = instanceOf(items, "Data") ? items : new classes.Data()
+    if (this.path === "/countries") {
+      console.log("CREATED", this.path)
+    }
+    const data = this.items = instanceOf(items, "Data") ? items : new classes.Data()
     data.__instance = this
     Object.defineProperty(data, "__instance", {
       enumerable: false,
@@ -24,6 +27,10 @@ module.exports = class Collection extends PreCore.classes.Tree {
 
     for (const key in items) {
       this.setItem(key, items[key], true)
+    }
+    if (this.key === "countries") {
+      console.log("COMPLETE", this.path)
+
     }
   }
 

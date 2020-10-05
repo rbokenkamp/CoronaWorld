@@ -6,7 +6,7 @@ module.exports = {
     type: "Menu",
   },
   body: {
-    type: "ListView",
+    type: "LayoutList",
   },
   timeline: {
     type: "Timeline",

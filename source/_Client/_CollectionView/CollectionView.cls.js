@@ -4,8 +4,10 @@ module.exports = class CollectionView extends PreCore.classes.Table {
     super.create(params)
     const {node, dataPath} = this
 
-    const data = this.data = core.get(dataPath),
-        self = data.__instance,
+    const data = this.data = core.get(dataPath)
+
+    console.log(dataPath, data.__instance)
+    const    self = data.__instance,
         {item} = self,
         {type} = item,
         {kind, instance} = PreCore.types[type]

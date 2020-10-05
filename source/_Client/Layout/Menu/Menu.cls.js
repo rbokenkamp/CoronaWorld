@@ -25,8 +25,6 @@ module.exports = class Menu extends PreCore.classes.Display {
     const parentNode = parent.node.querySelector(".Layout-Body"),
         map = parentNode.querySelector(".Map")
 
-    console.log("+++", parent.landScape)
-
     if (parent.landscape) {
       const width = (parentNode.offsetWidth - node.offsetWidth) / 2 * (y + 1)
 

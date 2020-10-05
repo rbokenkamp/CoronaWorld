@@ -18,7 +18,7 @@ module.exports = class Core extends PreCore.classes.Tree {
  */
   }
 
-  initClasses() {
+   initClasses() {
     const {classes} = PreCore
     for (const key in classes) {
       const cls = classes[key]

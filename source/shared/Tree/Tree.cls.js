@@ -74,10 +74,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         continue
       }
 
-      if (key === "background") {
-        // debugger;
-      }
-
       if (kind === "Tree") {
         let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
         if (value === undefined) {

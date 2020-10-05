@@ -18,9 +18,4 @@ module.exports = {
     type: "Integer",
     required: true,
   },
-  branches: {
-    type: "List",
-    item: "Text",
-    internal: true,
-  }
 }

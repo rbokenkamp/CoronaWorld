@@ -7,10 +7,13 @@ module.exports = {
     type: "Collection",
     item: "Text",
   },
+  countries: {
+    type: "Collection",
+    item: "Country",
+  },
+
   display: {
     type: "Layout",
     defaultValue: {},
-  }
- // dashboard: "Display",
- }
-// abc
+  },
+}

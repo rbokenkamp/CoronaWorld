@@ -2,5 +2,6 @@
 
 .CollectionView {
   border: 10px solid $purple;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
 }
