@@ -29,4 +29,12 @@ module.exports = class MapView extends PreCore.classes.Widget {
       }
     }
   }
+
+  draw() {
+    const {node, parent} = this
+    const height = node.parentNode.clientHeight,
+        clientHeight = parent.node.clientHeight
+    this.y = (height- clientHeight)/clientHeight
+    super.draw()
+  }
 }

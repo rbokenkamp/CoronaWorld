@@ -22,7 +22,6 @@ const mimes = {
 
     Http = module.exports = class extends PreCore.classes.Tree {
       create(params) {
-        console.log("CREATE")
         super.create(params)
          const {parent, port, https, options} = this,
              {home} = core,

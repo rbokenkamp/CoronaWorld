@@ -1,7 +1,7 @@
 module.exports = {
   port: {
     type: "Integer",
-    defaultValue: 1177,
+    defaultValue: 3000,
   },
   server: {
     type: "Branch",

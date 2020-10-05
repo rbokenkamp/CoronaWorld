@@ -39,6 +39,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     for (const child of node.children) {
       const childParams = Dom.getParams(child),
           {key, type} = childParams
+
       if (type && key) {
         const metas = types[params.type].instance
         if (key in metas === false) {

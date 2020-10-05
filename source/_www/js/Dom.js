@@ -26,6 +26,15 @@ const Dom = {
     }
     return result
   },
+  getParent: (node, type) => {
+    if (node.parentNode === document.body) {
+      return
+    }
+    if (node.classList.contains(type)) {
+      return node
+    }
+    Dom.getParent(node.parentNode, type)
+  },
   getParams: node => {
     const result = {}
     for (const attributes of node.attributes) {

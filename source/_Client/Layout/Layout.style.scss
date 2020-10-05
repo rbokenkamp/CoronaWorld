@@ -5,23 +5,21 @@ body {
   justify-content: center;
   align-items: center;
   background: #444;
+  user-select: none;
 }
 
 .Layout {
-  width: 375px;
-  height: 667px;
   background: white;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
 .Map {
-  flex: 0 0 100px;
+  flex: 0 0 200px;
   background: black;
   color: hsla(0, 100%, 50%, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 .Menu {
@@ -29,6 +27,7 @@ body {
   background: $blue;
   color: white;
   padding: 5px 10px;
+  cursor: pointer;
 }
 
 .Timeline {
