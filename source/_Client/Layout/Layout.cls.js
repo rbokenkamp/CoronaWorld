@@ -74,8 +74,10 @@ module.exports = class Layout extends PreCore.classes.Display {
       }
 
       node.onmousedown(e)
-      e.preventDefault()
-      e.stopPropagation()
+      if (e.scale !== 1) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
     }
 
     node.ontouchmove = e => {
@@ -91,8 +93,10 @@ module.exports = class Layout extends PreCore.classes.Display {
         e.clientY = e.screenY = e.pageY
       }
       window.onmousemove(e)
-      e.preventDefault()
-      e.stopPropagation()
+      if (e.scale !== 1) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
     }
 
     node.ontouchend = e => {

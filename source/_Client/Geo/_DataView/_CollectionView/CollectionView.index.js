@@ -1,4 +1,4 @@
 module.exports = {
   type: "Type",
-  extend: "Display",
+  extend: "Table",
 }

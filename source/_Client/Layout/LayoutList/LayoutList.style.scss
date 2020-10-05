@@ -1,11 +1,7 @@
 @import "colors";
 
 .LayoutList {
-  background: white;
-  color: $blue;
   background: $blue;
   color: white;
-  flex: 1 0 auto;
-  position: relative;
-
+  overflow-y: auto;
 }

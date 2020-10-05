@@ -8,6 +8,15 @@ module.exports = class Menu extends PreCore.classes.Display {
     const {parent, node} = this,
         parentNode = parent.node.querySelector(".Layout-Body")
 
+
+    PostCore.log({
+      x: parentNode.offsetHeight,
+      y: parentNode.querySelector(".LayoutList").offsetHeight,
+      z: parentNode.querySelector(".CollectionView").offsetHeight,
+      a: parentNode.offsetWidth,
+      b: parentNode.querySelector(".LayoutList").offsetWidth,
+      c: parentNode.querySelector(".CollectionView").offsetWidth,
+    })
     if (parent.landscape) {
       const width = (parentNode.offsetWidth - node.offsetWidth) / 2
       this.y = Math.min(this.dragY + dx / width, 1)
@@ -32,15 +41,18 @@ module.exports = class Menu extends PreCore.classes.Display {
     const {y, parent, node} = this
 
     const parentNode = parent.node.querySelector(".Layout-Body"),
-        map = parentNode.querySelector(".Map")
+        map = parentNode.querySelector(".Map"),
+        list = parentNode.querySelector(".LayoutList")
 
     if (parent.landscape) {
       const width = (parentNode.offsetWidth - node.offsetWidth) / 2 * (y + 1)
 
       Dom.style(map, {flex: `0 0 ${width}px`})
+      Dom.style(list, {flex: `0 0 ${parentNode.offsetWidth - node.offsetWidth - width}px`})
     } else {
       const height = (parentNode.offsetHeight - node.offsetHeight) / 2 * (y + 1)
       Dom.style(map, {flex: `0 0 ${height}px`})
+      Dom.style(list, {flex: `0 0 ${parentNode.offsetHeight - node.offsetHeight - height}px`})
     }
   }
 

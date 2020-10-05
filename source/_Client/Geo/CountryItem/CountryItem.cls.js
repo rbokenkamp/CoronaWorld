@@ -2,16 +2,15 @@ module.exports = class CountryItem extends PreCore.classes.Display {
 
   create(params) {
     super.create(params)
-    this.refresh()
-  }
-
-  refresh() {
     const {dataPath, index} = this
-    const data = core.get(dataPath),
-        {flag, name} = data
+    const data = core.get(dataPath)
 
-    this.setVars({index, flag, name})
+    if (data === undefined) {
+      console.error(`${dataPath} returns no data`)
+      return
+    }
+    const {flag, name} = data
+    this.setVars({index: +this.key, flag, name})
   }
-
 
 }
