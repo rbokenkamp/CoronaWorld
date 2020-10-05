@@ -30,7 +30,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
   }
 
-  run(params) {
+  init(params) {
     this.draw()
   }
 

@@ -98,6 +98,7 @@ module.exports = class Layout extends PreCore.classes.Display {
   }
 
   draw() {
+    console.log("DRAW")
     const {node} = this,
         {offsetWidth, offsetHeight} = node
     const landscape = this.landscape = offsetWidth > offsetHeight
