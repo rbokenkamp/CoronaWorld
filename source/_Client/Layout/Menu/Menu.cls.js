@@ -9,14 +9,6 @@ module.exports = class Menu extends PreCore.classes.Display {
         parentNode = parent.node.querySelector(".Layout-Body")
 
 
-    PostCore.log({
-      x: parentNode.offsetHeight,
-      y: parentNode.querySelector(".LayoutList").offsetHeight,
-      z: parentNode.querySelector(".CollectionView").offsetHeight,
-      a: parentNode.offsetWidth,
-      b: parentNode.querySelector(".LayoutList").offsetWidth,
-      c: parentNode.querySelector(".CollectionView").offsetWidth,
-    })
     if (parent.landscape) {
       const width = (parentNode.offsetWidth - node.offsetWidth) / 2
       this.y = Math.min(this.dragY + dx / width, 1)

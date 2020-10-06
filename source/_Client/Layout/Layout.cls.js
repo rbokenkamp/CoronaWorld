@@ -13,11 +13,18 @@ module.exports = class Layout extends PreCore.classes.Display {
     let position
     let previous
 
+    let isScaling = false
+    let previousScale = 1
+    let touchDistance
+
     node.onmousedown = e => {
       const {target, clientX, clientY} = e
       const draggable = Dom.getParent(target, "Draggable")
       dragging = false
       dragTarget = draggable ? draggable.__display : undefined
+      if (isScaling) {
+        return
+      }
       previous = position = [clientX, clientY]
     }
 
@@ -61,58 +68,89 @@ module.exports = class Layout extends PreCore.classes.Display {
     }
 
     node.ontouchstart = e => {
-      if (e.target.tagName === "INPUT") {
+      let {target, pageX, pageY, touches, clientX, clientY, screenX, screenY} = e
+      if (target.tagName === "INPUT") {
         return
       }
-      if (e.pageX === undefined) {
-        const f = e.targetTouches[0]
-        e.clientX = e.screenY = f.pageX
-        e.clientY = e.screenY = f.pageY
+      if (pageX === undefined) {
+        const [a, b] = touches
+        if (b) {
+          e.preventDefault()
+          e.stopPropagation()
+          const dx = b.pageX - a.pageX,
+              dy = b.pageY - a.pageY,
+              distance = Math.sqrt(dx * dx + dy * dy)
+          clientX = screenY = (a.pageX + b.pageX) / 2
+          clientY = screenY = (a.pageY + b.pageY) / 2
+
+          touchDistance = distance
+          isScaling = true
+        } else {
+          clientX = screenY = a.pageX
+          clientY = screenY = a.pageY
+        }
       } else {
-        e.clientX = e.screenY = e.pageX
-        e.clientY = e.screenY = e.pageY
+        clientX = screenY = pageX
+        clientY = screenY = pageY
       }
 
-      node.onmousedown(e)
-      if (e.scale !== 1) {
-        e.preventDefault()
-        e.stopPropagation()
-      }
+      node.onmousedown({target, pageX, pageY, touches, clientX, clientY, screenX, screenY})
     }
 
+    window.totalScale = 1
     node.ontouchmove = e => {
-      if (e.target.tagName === "INPUT") {
+      let {target, pageX, pageY, touches, clientX, clientY, screenX, screenY, scale} = e
+      if (target.tagName === "INPUT") {
         return
       }
-      if (e.pageX === undefined) {
-        const f = e.targetTouches[0]
-        e.clientX = e.screenY = f.pageX
-        e.clientY = e.screenY = f.pageY
+      if (pageX === undefined) {
+        const [a, b] = touches
+        if (b) {
+          e.preventDefault()
+          e.stopPropagation()
+          const dx = b.pageX - a.pageX,
+              dy = b.pageY - a.pageY,
+              distance = Math.sqrt(dx * dx + dy * dy)
+          clientX = screenY = (a.pageX + b.pageX) / 2
+          clientY = screenY = (a.pageY + b.pageY) / 2
+          scale = distance / touchDistance * previousScale
+          touchDistance = distance
+        } else {
+          scale = 1
+          clientX = screenY = a.pageX
+          clientY = screenY = a.pageY
+        }
+
       } else {
-        e.clientX = e.screenY = e.pageX
-        e.clientY = e.screenY = e.pageY
+        clientX = screenY = pageX
+        clientY = screenY = pageY
       }
-      window.onmousemove(e)
-      if (e.scale !== 1) {
-        e.preventDefault()
-        e.stopPropagation()
+
+      if (scale !== 1 || isScaling) {
+        //  e.preventDefault()
+        //  e.stopPropagation()
+        isScaling = true
+        const nextScale = scale / previousScale
+      //  PostCore.log({scale, result: (nextScale !== 1 && dragTarget !== undefined})
+        if (nextScale !== 1 && dragTarget !== undefined) {
+          dragTarget.setScale && dragTarget.setScale(nextScale)
+        }
+
+        previousScale = scale
       }
+      window.onmousemove({target, pageX, pageY, touches, clientX, clientY, screenX, screenY, scale})
     }
+
 
     node.ontouchend = e => {
+      isScaling = false
+      previousScale = 1
       if (e.target.tagName === "INPUT") {
         return
-      }
-      if (e.pageX === undefined) {
-        const f = e.targetTouches[0]
-        e.clientX = e.screenY = f.pageX
-        e.clientY = e.screenY = f.pageY
-      } else {
-        e.clientX = e.screenY = e.pageX
-        e.clientY = e.screenY = e.pageY
       }
       window.onmouseup(e)
     }
+
 
   }
 

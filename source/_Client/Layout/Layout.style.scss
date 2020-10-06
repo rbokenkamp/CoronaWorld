@@ -6,6 +6,9 @@ body {
   align-items: center;
   background: #444;
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .Layout {

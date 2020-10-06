@@ -7,6 +7,32 @@ module.exports = class MapView extends PreCore.classes.Widget {
     this.listen({event: "menu-move"}, () => {
       this.draw()
     })
+
+    window.onwheel = ({deltaY}) => {
+      this.setScale(deltaY > 0 ? .9 : 1.1)
+    }
+  }
+
+  dragStart() {
+    this.dragX = this.x
+    this.dragY = this.y
+  }
+
+  setScale(scale) {
+    const previousScale = this.scale
+    this.scale *= scale
+   this.delayedDraw()
+  //  PostCore.log({previousScale, scale, nextScale: this.scale, totalScale})
+  }
+
+  drag(dx, dy) {
+    const {node, dragX, dragY} = this
+    const {parentNode} = node
+    const {offsetWidth, offsetHeight} = parentNode
+    this.x = dragX + (dx * 2 / offsetWidth)
+    this.y = dragY + (dy * 2 / offsetHeight)
+
+    this.delayedDraw()
   }
 
   initMap() {

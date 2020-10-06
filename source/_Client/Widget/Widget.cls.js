@@ -19,6 +19,7 @@ module.exports = class Widget extends PreCore.classes.Display {
         dx = (offsetWidth * (1 + x) - width) / 2,
         dy = (offsetHeight * (1 + y) - height) / 2
 
+
     Dom.style(node, {
       transform: `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`
     })

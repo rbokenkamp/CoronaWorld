@@ -1,0 +1,5 @@
+limited number of points per path
+
+
+http://phrogz.net/SVG/convert_path_to_polygon.xhtml
+

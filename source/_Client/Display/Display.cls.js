@@ -103,6 +103,17 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   draw() {
   }
 
+  delayedDraw() {
+    if (this.drawTimeout) {
+      return
+    }
+    this.drawTimeout = setTimeout(() => {
+      this.draw()
+      delete this.drawTimeout
+    }, 100)
+
+  }
+
   setVars(vars) {
     const {node} = this
     for (const key in vars) {

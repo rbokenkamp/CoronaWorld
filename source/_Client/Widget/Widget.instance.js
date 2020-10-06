@@ -1,10 +1,10 @@
 module.exports = {
   x: {
-    type: "Integer",
+    type: "Real",
     defaultValue: 0,
   },
   y: {
-    type: "Integer",
+    type: "Real",
     defaultValue: 0,
   },
   scale: {
