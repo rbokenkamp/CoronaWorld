@@ -19,8 +19,10 @@ module.exports = class Selector extends PreCore.classes.Display {
   }
 
   drag(dx, dy) {
-    const {startValue, isHorizontal, displayWidth, displayHeight, marker} = this
-    let value = startValue + (2 * (isHorizontal ? dx / displayWidth : dy / displayHeight)) / (1 - marker.size)
+    const {startValue, isHorizontal, node, marker} = this,
+        {clientWidth, clientHeight} = node
+
+    let value = startValue + (2 * (isHorizontal ? dx / clientWidth : dy / clientHeight)) / (1 - marker.size)
     value = Math.min(1, Math.max(-1, this.adjustSteps(value)))
 
     if (this.setBranch("value", value) !== undefined) {
@@ -37,13 +39,7 @@ module.exports = class Selector extends PreCore.classes.Display {
 
     Dom[(isHorizontal ? "add" : "remove") + "Type"](node, "Horizontal")
     Dom[(isHorizontal ? "remove" : "add") + "Type"](node, "Vertical")
-    Dom[(value === 0 ? "add" : "remove") + "Type"](marker.node, "Zero")
-    Dom[(value === -1 || value === 1 ? "add" : "remove") + "Type"](marker.node, "Boundary")
 
-    this.displayWidth = node.clientWidth
-    this.displayHeight = node.clientHeight
-
-    value *= (1 - marker.width) // adjust for boundary display of marker
-
+    console.log({value})
   }
 }

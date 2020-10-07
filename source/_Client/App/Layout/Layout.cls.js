@@ -1,7 +1,7 @@
 module.exports = class Layout extends PreCore.classes.Selector {
 
   create(params) {
+    params.value = -1
     super.create(params)
-    console.log("@@@", PreCore.types[this.type].instance)
   }
 }

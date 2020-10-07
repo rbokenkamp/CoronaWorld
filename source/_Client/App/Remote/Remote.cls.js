@@ -1,14 +1,14 @@
 module.exports = class Remote extends PreCore.classes.Display {
 
   create(params) {
-    if (location.pathname === "/qr") {
-      const key = location.search.substr(1)
-      this.remoteKey = key
+  //  if (location.pathname === "/qr") {
+  //    const key = location.search.substr(1)
+  //    this.remoteKey = key
       params.layout = {type: "Layout"}
-    }
-    else {
-      params.remote = {type: "Remote"}
-    }
+  //  }
+ //   else {
+  //    params.qr = {type: "QrGenerator"}
+  //  }
 
     super.create(params)
   }

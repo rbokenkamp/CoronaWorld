@@ -3,15 +3,14 @@
 .Marker {
   position: absolute;
   cursor: pointer;
-  border: 4px solid black;
   background: $blue;
 
   &.Zero {
-    stroke: $teal;
+    background: $teal;
   }
 
   &.Boundary {
-    stroke: $purple;
+    background: $purple;
   }
 
 }

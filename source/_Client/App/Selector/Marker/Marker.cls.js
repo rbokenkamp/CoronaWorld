@@ -6,14 +6,18 @@ module.exports = class Marker extends PreCore.classes.Display {
         {clientWidth, clientHeight} = parentNode
 
     let {isHorizontal, value} = parent
-    value *= (1 - size) // adjust for boundary display of marker
+    Dom[(value === 0 ? "add" : "remove") + "Type"](node, "Zero")
+    Dom[(value === -1 || value === 1 ? "add" : "remove") + "Type"](node, "Boundary")
+
+     value *= (1 - size) // adjust for boundary display of marker
 
     const width = isHorizontal ? "" + size * clientWidth : clientWidth,
         height = isHorizontal ? clientHeight : "" + size * clientHeight,
-        top = isHorizontal ? 0 : `${(1 + value) * clientHeight / 2}px`,
-        left = isHorizontal ? `${-width/2+(1 + value) * (clientWidth - width) / 2}px` : 0
+        top = isHorizontal ? 0 : `${-height / 2 + (1 + value) * clientHeight / 2}px`,
+        left = isHorizontal ? `${-width / 2 + (1 + value) * (clientWidth - width) / 2}px` : 0
 
-   Dom.style(node, {
+
+    Dom.style(node, {
       width: `${width}px`,
       height: `${height}px`,
       top,
