@@ -7,21 +7,23 @@ module.exports = class Selector extends PreCore.classes.Display {
   }
 
   dragStart() {
+    console.log("DRAG START")
     this.startValue = this.value
   }
 
   adjustSteps(value) {
-    const {steps} = this
+    let {steps} = this
     const negativeFactor = value < 0 ? -1 : 1
+    steps = Math.floor(steps / 2)
     return negativeFactor * Math.round(Math.abs(value) * steps) / steps
   }
 
   drag(dx, dy) {
     const {startValue, isHorizontal, displayWidth, displayHeight, marker} = this
-    let value = startValue + (2 * (isHorizontal ? dx / displayWidth : dy / displayHeight))/(1-marker.width)
+    let value = startValue + (2 * (isHorizontal ? dx / displayWidth : dy / displayHeight)) / (1 - marker.size)
     value = Math.min(1, Math.max(-1, this.adjustSteps(value)))
-    const changed = this.setBranch("value", value)
-    if (changed) {
+
+    if (this.setBranch("value", value) !== undefined) {
       this.refresh(() => marker.draw())
     }
   }
@@ -38,18 +40,10 @@ module.exports = class Selector extends PreCore.classes.Display {
     Dom[(value === 0 ? "add" : "remove") + "Type"](marker.node, "Zero")
     Dom[(value === -1 || value === 1 ? "add" : "remove") + "Type"](marker.node, "Boundary")
 
-     this.displayWidth = node.clientWidth
+    this.displayWidth = node.clientWidth
     this.displayHeight = node.clientHeight
 
-    value *= (1-marker.width)
-
-    marker.set({
-      x1: isHorizontal ? value : -1,
-      y1: isHorizontal ? -1 : value,
-      x2: isHorizontal ? value : 1,
-      y2: isHorizontal ? 1 : value,
-      widthRelative: isHorizontal ? "Width" : "Height",
-    })
+    value *= (1 - marker.width) // adjust for boundary display of marker
 
   }
 }

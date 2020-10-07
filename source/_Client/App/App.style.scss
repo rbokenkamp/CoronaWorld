@@ -1,0 +1,33 @@
+@import "colors";
+
+.App {
+  width: 100%;
+  height: 100%;
+
+  background: #444;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .Remote {
+    max-width: 92%;
+    max-height: 92%;
+    background: white;
+
+    &.Vertical {
+      width: 375px;
+      height: 667px;
+    }
+
+    &.Horizontal {
+      width: 667px;
+      height: 375px;
+    }
+  }
+
+}
+

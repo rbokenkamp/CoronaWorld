@@ -23,11 +23,11 @@ const mimes = {
     Http = module.exports = class extends PreCore.classes.Tree {
       create(params) {
         super.create(params)
-         const {parent, port, https, options} = this,
-             {home} = core,
+        const {parent, port, https, options} = this,
+            {home} = core,
             {deflatable} = Http,
             {clientSource} = parent,
-             protocol = require(https? "https": "http"),
+            protocol = require(https ? "https" : "http"),
             server = this.server = protocol.createServer(options, (request, response) => {
 
               if (request.method === "POST") {
@@ -35,7 +35,7 @@ const mimes = {
                 request.on("data", data => {
                   result += data
                 })
-                request.on("end", function() {
+                request.on("end", function () {
                   httpWrite(response, 200, "")
                   console.log("+-".repeat(50))
                   console.log(JSON.parse(result))
@@ -44,13 +44,15 @@ const mimes = {
               }
 
 
+              const fullPath = request.url === "/" ? "/index.html" : request.url.replace(/\?.*/, "")
+              let [path, id] = fullPath.split("?")
+              path = path === "/qr" ? "/index.html" : path
               const {paths, timestamps} = clientSource,
-                  path = request.url === "/" ? "/index.html" : request.url.replace(/\?.*/, ""),
                   index = path.lastIndexOf("."),
                   ext = path.substr(index + 1),
                   mime = mimes[ext]
 
-         //     console.log("REQUEST", path)
+              //     console.log("REQUEST", path)
               const content = paths[path]
               if (mime === undefined || content === undefined) {
                 return httpWrite(response, 404, "Not found")
@@ -60,7 +62,7 @@ const mimes = {
               let lastModified = request.headers["if-modified-since"]
               if (lastModified) {
                 if (lastModified === timestamp) {
-              //    return httpWrite(response, 304, "Not modified")
+                  //    return httpWrite(response, 304, "Not modified")
                 }
               }
 

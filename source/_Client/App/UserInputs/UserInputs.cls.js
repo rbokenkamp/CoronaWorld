@@ -40,7 +40,6 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       dragging = false
       listenerTarget = listener ? listener.__display : undefined
       previous = position = [clientX, clientY]
-      console.log("DOWN", clientX, clientY, listener)
     }
 
     window.onmousemove = e => {

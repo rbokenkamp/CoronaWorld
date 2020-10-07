@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/rbokenkamp/core#readme",
   "dependencies": {
-    "sass": "^1.26.11"
+    "qrcode": "^1.4.4",
+    "sass": "^1.26.12",
+    "ws": "^7.3.1"
   }
 }

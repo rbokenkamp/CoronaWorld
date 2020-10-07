@@ -16,6 +16,10 @@ module.exports = {
    http: {
     type: "Http",
     defaultValue: {},
+  },
+  ws: {
+    type: "WebSocket",
+    defaultValue: {},
   }
 
 }

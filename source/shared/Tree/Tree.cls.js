@@ -102,12 +102,13 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         // @@@ TODO REMOVE BRANCH
         return
       }
+
       if (cls.equals(this.value, value)) {
         return
       }
       this[key]= value
       core.trigger({event: "set", path, value})
-      return this.value
+      return value
     }
 
     let branch = this[key]

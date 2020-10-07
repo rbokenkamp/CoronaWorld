@@ -1,0 +1,17 @@
+@import "colors";
+
+.Marker {
+  position: absolute;
+  cursor: pointer;
+  border: 4px solid black;
+  background: $blue;
+
+  &.Zero {
+    stroke: $teal;
+  }
+
+  &.Boundary {
+    stroke: $purple;
+  }
+
+}

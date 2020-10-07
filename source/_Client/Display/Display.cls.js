@@ -23,7 +23,8 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     if (node.children.length) {
       this.parseTemplate(params, node)
     } else {
-      const template = PreCore.templates[type]
+      const template = this.getTemplate()
+      console.log(this.path, template)
       if (template) {
         this.setTemplate(params, template)
       }
@@ -36,13 +37,13 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
 
   build(params) {
- //   console.log(params.key, "BEFORE CREATE")
+    //   console.log(params.key, "BEFORE CREATE")
     this.create(params)
- //   console.log(this.path, "AFTER CREATE")
+    //   console.log(this.path, "AFTER CREATE")
     this.init && this.init(params)
 //    console.log(this.path, "AFTER INIT")
     this.created(params)
- //   console.log(this.path, "AFTER CREATED")
+    //   console.log(this.path, "AFTER CREATED")
   }
 
   init(params) {
@@ -65,6 +66,22 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
         continue
       }
       this.parseTemplate(params, child)
+    }
+  }
+
+  getTemplate() {
+    const {types} = PreCore
+    let {type} = this
+    while (true) {
+      const template = PreCore.templates[type]
+      if (template) {
+        return template
+      }
+
+      type = types[type].extend
+      if (type === undefined) {
+        return
+      }
     }
   }
 
@@ -97,18 +114,24 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   }
 
   getTypes() {
-    const types = this.types ? this.types: []
+    const types = this.types ? this.types : []
     let type = this.type
+    console.log(this.path, types, type)
     while (true) {
       types.unshift(type)
+      if (type === undefined) {
+        this.raise("display_not_inherited", {path: this.path})
+      }
       if (type === "Display") {
         return types
       }
+      console.log(type)
       type = core.types[type].extend
     }
   }
 
   draw() {
+    console.log("DRAW", this.path)
   }
 
   refresh(handler) {

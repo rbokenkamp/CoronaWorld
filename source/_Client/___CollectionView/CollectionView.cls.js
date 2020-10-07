@@ -3,39 +3,9 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 
   created(params) {
     super.created(params)
-    const {dataPath, node} = this
-    Dom.addType(node, "Draggable")
-    let data = core.get(params.dataPath)
-    data = this.data = data === undefined ? [] : Object.values(data)
-    if (data.length === 0) {
-      Dom.addType(node, "NoData")
-      return Dom.set(this.node, "No data available")
     }
 
-
-    let index = 0
-    for (const obj of data) {
-      const {key} = obj
-      const item = this.items.branch({
-        key: `${index}`,
-        type: "CountryItem",
-        dataPath: `${dataPath}/${key}`,
-        //   parentNode: itemsNode
-      })
-      Dom.addType(item.node, "CollectionViewItem")
-      Dom.setAttributes(item.node, {"data-event": "select", "data-key": key})
-      index++
-    }
-    this.setWidths()
-
-    this.listen({event: "menu-move"}, () => {
-      this.draw()
-    })
-    this.listen({event: "collection-select"}, ({key}) => {
-      this.setSelected(key)
-    })
-  }
-
+    /*
   setWidths() {
     const {node} = this,
         max = {}
@@ -78,5 +48,5 @@ width: ${max[i]}px;
     Dom.addType(this.items[index].node, "selected")
     this.selectedIndex = index
   }
-
+*/
 }
