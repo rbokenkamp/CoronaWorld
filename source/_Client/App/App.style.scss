@@ -13,10 +13,11 @@
   justify-content: center;
   align-items: center;
 
-  .Remote {
+  .Layout {
     max-width: 92%;
     max-height: 92%;
-  
+    background: white;
+
     &.Vertical {
       width: 375px;
       height: 667px;

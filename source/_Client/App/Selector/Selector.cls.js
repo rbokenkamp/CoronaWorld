@@ -7,8 +7,7 @@ module.exports = class Selector extends PreCore.classes.Display {
   }
 
   dragStart() {
-    console.log("DRAG START")
-    this.startValue = this.value
+     this.startValue = this.value
   }
 
   adjustSteps(value) {
@@ -40,6 +39,5 @@ module.exports = class Selector extends PreCore.classes.Display {
     Dom[(isHorizontal ? "add" : "remove") + "Type"](node, "Horizontal")
     Dom[(isHorizontal ? "remove" : "add") + "Type"](node, "Vertical")
 
-    console.log({value})
   }
 }

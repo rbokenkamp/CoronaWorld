@@ -3,5 +3,5 @@ module.exports = {
     type: "UserInputs",
     defaultValue: {},
   },
-  remote: "Remote",
+  layout: "Layout",
 }

@@ -14,7 +14,7 @@ module.exports = class Marker extends PreCore.classes.Display {
     const width = isHorizontal ? "" + size * clientWidth : clientWidth,
         height = isHorizontal ? clientHeight : "" + size * clientHeight,
         top = isHorizontal ? 0 : `${-height / 2 + (1 + value) * clientHeight / 2}px`,
-        left = isHorizontal ? `${-width / 2 + (1 + value) * (clientWidth - width) / 2}px` : 0
+        left = isHorizontal ? `${-width / 2 + (1 + value) * clientWidth / 2}px` : 0
 
 
     Dom.style(node, {
