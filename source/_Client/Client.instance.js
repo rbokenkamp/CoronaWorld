@@ -11,7 +11,6 @@ module.exports = {
     type: "Collection",
     item: "Country",
   },
-
   display: {
     type: "Layout",
     defaultValue: {},

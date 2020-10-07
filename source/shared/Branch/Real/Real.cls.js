@@ -6,6 +6,9 @@ module.exports = class Real extends PreCore.classes.Branch {
       return
     }
 
+    if (typeof data === "string") {
+      data = +data
+    }
     const {min, max} = meta
     if (typeof data !== "number") {
       instance.raise("real_invalid_type", {path})

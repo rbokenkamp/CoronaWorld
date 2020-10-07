@@ -1,4 +1,4 @@
-module.exports = class Core extends PreCore.classes.Tree {
+module.exports = class Core extends PreCore.classes.EventHandler {
 
 
   create(params) {

@@ -1,57 +1,30 @@
 @import "colors";
 
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.Layout {
+  width: 100%;
+  height: 100%;
+
   background: #444;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-}
-
-.Layout {
-  width: 100%;
-  height: 100%;
-//  width: 375px;
-//  height: 667px;
-
-
-// height: 375px;
-// width: 667px;
-  background: white;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.Layout-Body {
-  flex: 1 0 50%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+.Layout-Selector  {
+  max-width: 92%;
+  max-height: 92%;
 
-.Layout.Landscape .Layout-Body {
-  flex-direction: row;
-}
+  &.Vertical {
+    width: 375px;
+    height: 667px;
+  }
 
-.Map {
-  flex: 0 0 200px;
-  background: black;
-  color: hsla(0, 100%, 50%, 1);
-  overflow: hidden;
+  &.Horizontal {
+    width: 667px;
+    height: 375px;
+  }
 }
-.Menu {
-  background: $grey;
-  color: white;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.Timeline {
-  background: teal;
-  color: white;
-  padding: 5px 10px;
-}
-

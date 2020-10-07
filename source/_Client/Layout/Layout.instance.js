@@ -1,15 +1,10 @@
 module.exports = {
-  map: {
-    type: "MapView",
+  displayWidth: "Integer",
+  displayHeight: "Integer",
+  landscape: "Boolean",
+  inputs: {
+    type: "UserInputs",
+    defaultValue: {},
   },
-  menu: {
-    type: "Menu",
-  },
-  body: {
-    type: "LayoutList",
-  },
-  timeline: {
-    type: "Timeline",
-  },
-  landscape: "Boolean"
+  selector: "Display",
 }

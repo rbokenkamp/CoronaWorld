@@ -5,6 +5,9 @@ module.exports = class Integer extends PreCore.classes.Branch {
     if (data === undefined) {
       return
     }
+    if (typeof data === "string") {
+      data = +data
+    }
     const {min, max} = meta
     if (typeof data !== "number" || data % 1 !== 0) {
       instance.raise("integer_invalid_type", {path})

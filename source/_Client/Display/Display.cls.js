@@ -10,11 +10,6 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
     parentNode = parentNode ? parentNode : (parent && parent.node ? parent.node : document.body)
 
-    const template = PreCore.templates[type]
-    if (template) {
-      this.setTemplate(params, parentNode, template, params.node)
-    }
-
     let {tag, dataPath, node} = this
     if (node === undefined) {
       this.node = Dom.create({
@@ -24,14 +19,34 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     }
     node = this.node
     node.__display = this
+
+    if (node.children.length) {
+      this.parseTemplate(params, node)
+    } else {
+      const template = PreCore.templates[type]
+      if (template) {
+        this.setTemplate(params, template)
+      }
+    }
+
     const types = this.getTypes()
     Dom.setTypes(node, types)
     Dom.setAttributes(node, {"id": "d" + this.id})
+  }
 
+
+  build(params) {
+ //   console.log(params.key, "BEFORE CREATE")
+    this.create(params)
+ //   console.log(this.path, "AFTER CREATE")
+    this.init && this.init(params)
+//    console.log(this.path, "AFTER INIT")
+    this.created(params)
+ //   console.log(this.path, "AFTER CREATED")
   }
 
   init(params) {
-    setTimeout(() => this.draw())
+    // this.refresh()
   }
 
   parseTemplate(params, node) {
@@ -41,7 +56,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
           {key, type} = childParams
 
       if (type && key) {
-        const metas = types[params.type].instance
+        const metas = types[this.type].instance
         if (key in metas === false) {
           this.raise("tree_unknown_param", {path: this.path + "/" + key})
         }
@@ -49,22 +64,15 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
         params[key] = childParams
         continue
       }
-       this.parseTemplate(params, child)
+      this.parseTemplate(params, child)
     }
   }
 
-  setTemplate(params, parentNode, template, templateNode) {
-    if (templateNode) {
-      templateNode.innerHTML = template
-      const node = templateNode.children[templateNode.children.length - 1]
-      templateNode.removeChild(node)
-      templateNode.innerHTML = node.innerHTML
-    } else {
-      parentNode.insertAdjacentHTML("beforeend", template)
-      const node = this.node = parentNode.children[parentNode.children.length - 1]
-    }
+  setTemplate(params, template) {
+    const {node} = this
 
-    this.parseTemplate(params, this.node)
+    node.innerHTML = template
+    this.parseTemplate(params, node)
   }
 
   getDisplayParent(current) {
@@ -103,13 +111,14 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   draw() {
   }
 
-  delayedDraw() {
+  refresh(handler) {
     if (this.drawTimeout) {
       return
     }
     this.drawTimeout = setTimeout(() => {
       this.draw()
       delete this.drawTimeout
+      handler && handler()
     }, 100)
 
   }

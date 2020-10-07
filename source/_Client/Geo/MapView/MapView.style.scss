@@ -4,11 +4,12 @@
   background: black;
   width: 2058px;
   height: 1036px;
+   border: 1px solid gold;
 
   path {
     stroke: hsla(0, 100%, 50%, 1);
     fill: hsla(0, 100%, 50%, .3);
-    stroke-width: 1px;
+    stroke-width: .251px;
   }
 
   path.selected {
@@ -16,6 +17,7 @@
     stroke: gold;
     fill: rgba(255, 215, 0, .2);
     z-index: 100;
+    stroke-width: 2px;
   }
 
   cursor: pointer;

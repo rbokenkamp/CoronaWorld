@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    div {
+      border: 3px solid gold;
+      text-align: center;
+    }
+
+    svg {
+      background: blue;
+    }
+    line {
+      stroke: white;
+      stroke-width: 1px;
+    }
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<svg height="210" width="500">
+  <line x1="0" y1="0" x2="200" y2="200"/>
+</svg>
+<script>
+  const distanceToLine = ([x0, y0], [x1, y1], [x2, y2]) => {
+    const dx = x2 - x1,
+        dy = y2 - y1
+    return Math.abs(x0 * dy - y0 * dx + x2 * y1 - y2 * x1) / Math.sqrt(dx * dx + dy * dy)
+  }
+
+  const svg = document.querySelector("svg")
+  const a = [0, 0], b = [200, 200]
+  svg.onclick = ({clientX, clientY}) => {
+    const distance = distanceToLine([clientX, clientY], a, b)
+    console.log(clientX, clientY, distance)
+  }
+
+</script>
+</body>
+</html>

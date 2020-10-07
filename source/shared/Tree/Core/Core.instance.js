@@ -1,8 +1,4 @@
 module.exports = {
-  events: {
-    type: "EventHandler",
-    defaultValue: {},
-  },
   errors: {
     type: "Collection",
     item: "Text",

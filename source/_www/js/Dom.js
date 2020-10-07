@@ -110,4 +110,5 @@ Dom.svgNodes = {
   g: true,
   image: true,
   polygon: true,
+  circle: true,
 }

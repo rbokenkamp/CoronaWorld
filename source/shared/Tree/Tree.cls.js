@@ -65,33 +65,91 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         metas = types[this.type].instance
 
     for (const key in metas) {
-      const meta = metas[key],
-          {type} = meta,
-          {kind} = types[type]
+      this.setBranch(key, params[key],  true)
+    }
+  }
 
-      if (kind === "Branch") {
-        continue
-      }
+   setBranch(key, value, isCreate) {
+    const path = this.path + "/" + key,
+        {types, classes, merge} = PreCore,
+        metas = types[this.type].instance,
+        meta = metas[key]
 
-      if (kind === "Tree") {
-        let value = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
-        if (value === undefined) {
-          continue
-        }
-        if (typeof value === "string") {
-          value = {type: value}
-        }
-        value.type = value.type || meta.type
-        value.key = key
-        this.branch(value)
+    if (meta === undefined) {
+      this.raise("tree_unknown_param", {path: path})
+    }
+
+    const {type, internal, updatable} = meta,
+        {kind, cls} = types[type]
+
+    if (internal) {
+      if (isCreate) {
+        return
+      }
+      this.raise("tree_internal_param", {path: path})
+    }
+
+    if (updatable === false && !isCreate) {
+      this.raise("tree_non_updatable", {path: path})
+    }
+
+    if (kind === "Branch") {
+      if (isCreate) {
+        return
+      }
+      value = cls.validate(this, path, meta, value)
+      if (value === undefined) {
+        // @@@ TODO REMOVE BRANCH
+        return
+      }
+      if (cls.equals(this.value, value)) {
+        return
+      }
+      this[key]= value
+      core.trigger({event: "set", path, value})
+      return this.value
+    }
+
+    let branch = this[key]
+    if (branch !== undefined) {
+      return branch.set(value)
+    }
+
+    if (kind === "Tree") {
+      value = classes.Branch.validate(this, this.path + "/" + key, meta, value)
+      if (value === undefined) {
+        return
+      }
+      if (typeof value === "string") {
+        value = {type: value}
+      }
+      value.type = value.type || meta.type
+      value.key = key
+      branch = this[key] =this.branch(value)
+      core.trigger({event: "set", path})
+      return branch
+    }
+    let items = classes.Branch.validate(this, this.path + "/" + key, meta, value)
+    if (items === undefined) {
+      return
+    }
+    value = merge(meta, {key, items})
+    branch = this[key] =this.branch(value)
+    core.trigger({event: "set", path})
+    return branch
+  }
+
+  set(params, path) {
+    if (path) {
+      raise(new Error("TODO"))
+    }
+
+    for (const key in params) {
+      if (key === undefined) {
+        // @@@ TODO -> REMOVE BRANCH
         continue
       }
-      let items = classes.Branch.validate(this, this.path + "/" + key, meta, params[key])
-      if (items === undefined) {
-        continue
-      }
-      let value = merge(meta, {key, items})
-      this.branch(value)
+      this.setBranch(key, params[key])
     }
   }
 
@@ -164,7 +222,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
   }
 
   listen(filter, handler, once) {
-    const id = core.events.listen(filter, handler, once)
+    const id = core.listen(filter, handler, once)
     this.listening.push(id)
   }
 
