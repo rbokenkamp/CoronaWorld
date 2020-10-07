@@ -1,8 +1,13 @@
 @import "colors";
 
 .Selector {
-  border: 10px solid gold;
+  & > [params-key=marker] {
+    cursor: pointer;
+  }
   .Line {
+    stroke: $blue;
+  }
+  .Line.Zero {
     stroke: $teal;
   }
 }

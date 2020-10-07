@@ -97,7 +97,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   }
 
   getTypes() {
-    const types = []
+    const types = this.types ? this.types: []
     let type = this.type
     while (true) {
       types.unshift(type)

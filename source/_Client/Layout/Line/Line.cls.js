@@ -1,11 +1,5 @@
 module.exports = class Line extends PreCore.classes.Display {
 
-  create(params) {
-    super.create(params)
-    Dom.setAttributes(this.node, {x1: 0, y1: 0, x2: 500, y2: 500})
-  }
-
-
   draw() {
    let {node, parent, x1, y1, x2, y2, width, widthRelative} = this,
         {displayWidth, displayHeight} = parent
