@@ -83,6 +83,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 `
     }
     this.setStyle(style)
+    return maxHeight
   }
 
   select(params) {
@@ -145,8 +146,8 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       i++
       index = (index + 1) % length
     }
-    Dom.style(node, {"margin-top": `-${residu * items[i].node.clientHeight}px`})
-    this.setWidths()
+    const maxHeight = this.setWidths()
+    Dom.style(node, {"margin-top": `-${residu * maxHeight}px`})
 
   }
 
