@@ -10,11 +10,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
 
     this.scrollIndex = 0
-    window.onwheel = ({deltaY}) => {
-      const negativeFactor = deltaY > 0 ? -1 : 1
-      this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
-    }
-    this.queueInterval = undefined
+     this.queueInterval = undefined
     this.queue = []
     if (bindPath) {
       const key = this.selected = core.get(bindPath),
@@ -31,6 +27,10 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     }
   }
 
+  wheel(deltaY) {
+      const negativeFactor = deltaY > 0 ? -1 : 1
+      this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
+  }
 
   drag(dx, dy, ddx, ddy) {
     if (ddy === 0) {

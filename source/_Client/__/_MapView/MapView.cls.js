@@ -1,9 +1,31 @@
+
 module.exports = class MapView extends PreCore.classes.Widget {
 
   create(params) {
+    let location
+   // location = sessionStorage.getItem("location")
+    if (location) {
+      console.log(location)
+      Object.assign(params, JSON.parse(location))
+    }
+
     super.create(params)
     this.paths = {}
     this.initMap()
+    this.listen({event: "menu-move"}, () => {
+      this.draw()
+    })
+
+    window.onwheel = ({deltaY}) => {
+      this.setScale(deltaY > 0 ? .9 : 1.1)
+    }
+
+    // const {location} = core.countries.nl,
+    //     [x, y] = location
+
+    //   this.x = x
+    //   this.y = -y
+//    console.log(location)
   }
 
   dragStart() {
@@ -51,6 +73,12 @@ module.exports = class MapView extends PreCore.classes.Widget {
     return this.distance(p, [a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1])])
   }
 
+  distanceToLine([x0, y0], [x1, y1], [x2, y2]) {
+    const dx = x2 - x1,
+        dy = y2 - y1
+    return Math.abs(x0 * dy - y0 * dx + x2 * y1 - y2 * x1) / Math.sqrt(dx * dx + dy * dy)
+  }
+
 
   /*
   distanceToLine(p, a, b) {
@@ -95,11 +123,7 @@ module.exports = class MapView extends PreCore.classes.Widget {
       if (target === selected) {
         const translated = this.screenToWidget(x, y)
         const [cx, cy] = translated
-        const circle = Dom.create({
-          parent: node,
-          tag: "circle",
-          attributes: {cx, cy, r: 1, stroke: "white", "stroke-width": .25, fill: "none"}
-        })
+        const circle = Dom.create({parent: node, tag: "circle", attributes: {cx, cy, r: 1, stroke: "white", "stroke-width": .25, fill: "none"}})
         console.log(circle)
         const d = Dom.getAttribute(selected, "d")
         const e = this.removeSegment(d, translated)
@@ -149,17 +173,29 @@ module.exports = class MapView extends PreCore.classes.Widget {
       }
 
       Dom.setAttribute(path, "d", d)
-//      Dom.style(path, {stroke: `hsla(${i / length * 360}, 100%, 50%, 1)`})
+//      console.log(i, sh `hsla(${i/shapes*360}, 100%, 50%, 1)`)
+      Dom.style(path, {stroke: `hsla(${i / length * 360}, 100%, 50%, 1)`})
       area += this.area(points)
     }
+    //   console.log(key, area)
   }
 
   initMap() {
-    const {countries} = core
+    const {node, paths} = this,
+        {countries} = core
 
+//    console.log(countries.nl)
+    //   this.initShapes(countries.nl)
+    //   return
+
+    const enable = {us: true, ca: true}
     for (const key in countries) {
+      if (!enable[key]) {
+        //   continue
+      }
       this.initShapes(countries[key])
     }
+    //   this.initShapes(countries.nl)
   }
 
 

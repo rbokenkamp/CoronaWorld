@@ -7,6 +7,7 @@ const PostCore = module.exports = {}
         3: "B",
         4: "T",
       },
+      {abs, sqrt, floor, pow, round, log} = Math,
       transform = PostCore.transform = params => {
         const result = {}
         for (const key in params) {
@@ -18,7 +19,7 @@ const PostCore = module.exports = {}
         }
         return JSON.stringify(result)
       },
-      log = PostCore.log = params => {
+      _log = PostCore.log = params => {
         const xhr = new XMLHttpRequest()
         xhr.open("POST", "/log")
         xhr.send(transform(params))
@@ -31,17 +32,23 @@ const PostCore = module.exports = {}
           return "0"
         }
 
-        let log = Math.log(x) / Math.log(10)
-        if (log > 0) {
-          const level = Math.floor(log / 3)
+        let lg = log(x) / log(10)
+        if (lg > 0) {
+          const level = Math.floor(lg / 3)
           x = x / Math.pow(10, level * 3)
           return x.toFixed(x >= 10 ? 0 : 1) + levels[level]
 
         }
 
-        log = Math.floor(log) - 1
+        lg =floor(lg) - 1
 
-        const y = Math.pow(10, -log)
-        return Math.round(x * y) / y
+        const y = pow(10, -lg)
+        return round(x * y) / y
+      },
+      distanceToLine = PostCore.distanceToLine = ([x0, y0], [x1, y1], [x2, y2]) => {
+        const dx = x2 - x1,
+            dy = y2 - y1
+        return abs(x0 * dy - y0 * dx + x2 * y1 - y2 * x1) / sqrt(dx * dx + dy * dy)
       }
+
 }
