@@ -1,7 +1,6 @@
 @import "colors";
 
 .App {
-  width: 100%;
   height: 100%;
 
   background: #444;
@@ -14,6 +13,9 @@
   align-items: center;
 
   .Layout {
+    height: 100%;
+    width: 100%;
+    /*
     max-width: 92%;
     max-height: 92%;
 
@@ -26,6 +28,8 @@
       width: 667px;
       height: 375px;
     }
+
+     */
   }
 
 }

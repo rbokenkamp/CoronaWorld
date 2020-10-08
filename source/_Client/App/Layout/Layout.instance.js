@@ -1,6 +1,8 @@
 module.exports = {
   area: {
     type: "Choice",
+    choices: ["country", "region"],
+    defaultValue: "country",
   },
-  collection: "CollectionView",
+  list: "CollectionView",
 }

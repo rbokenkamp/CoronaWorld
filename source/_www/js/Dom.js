@@ -74,6 +74,7 @@ const Dom = {
   style: (node, params) => Object.assign(node.style, params),
   hasType: (node, type) => node.classList.contains(type),
   addType: (node, type) => node.classList.add(type),
+  toggleType: (node, type, toggle) => node.classList[toggle ? "add" : "remove"](type),
   removeType: (node, type) => node.classList.remove(type),
   setTypes: (node, types) => {
     for (const key of types) {

@@ -3,18 +3,21 @@
 .Layout {
   background: black;
 
-  .Layout-List {
+  .Selector-Bottom {
     background: $blue;
-    position: absolute;
+
+    .CollectionView {
+      height: 100%;
+
+      &.NoData {
+        color: white;
+      }
+    }
   }
 
 
   &.Horizontal .Menu {
     flex-direction: column;
-  }
-
-  .CollectionView {
-    border: 10px solid gold;
   }
 
   .CollectionViewItem {

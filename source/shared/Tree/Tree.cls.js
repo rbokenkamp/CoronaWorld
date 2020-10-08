@@ -20,7 +20,6 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
   }
 
   create(params) {
-    this.listening = []
     const {classes, instances, types, getType} = PreCore
 
     const {type, parent, key} = params,
@@ -65,11 +64,11 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         metas = types[this.type].instance
 
     for (const key in metas) {
-      this.setBranch(key, params[key],  true)
+      this.setBranch(key, params[key], true)
     }
   }
 
-   setBranch(key, value, isCreate) {
+  setBranch(key, value, isCreate) {
     const path = this.path + "/" + key,
         {types, classes, merge} = PreCore,
         metas = types[this.type].instance,
@@ -106,7 +105,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       if (cls.equals(this.value, value)) {
         return
       }
-      this[key]= value
+      this[key] = value
       core.trigger({event: "set", path, value})
       return value
     }
@@ -126,7 +125,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
       value.type = value.type || meta.type
       value.key = key
-      branch = this[key] =this.branch(value)
+      branch = this[key] = this.branch(value)
       core.trigger({event: "set", path})
       return branch
     }
@@ -135,7 +134,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       return
     }
     value = merge(meta, {key, items})
-    branch = this[key] =this.branch(value)
+    branch = this[key] = this.branch(value)
     core.trigger({event: "set", path})
     return branch
   }
@@ -224,6 +223,9 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
   listen(filter, handler, once) {
     const id = core.listen(filter, handler, once)
+    if ("listening" in this === false) {
+      this.listening = []
+    }
     this.listening.push(id)
   }
 
@@ -231,6 +233,9 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
   release() {
     const {listening} = this,
         {events} = core
+    if (listening === undefined) {
+      return
+    }
     for (const id of listening) {
       events.unlisten(id)
     }

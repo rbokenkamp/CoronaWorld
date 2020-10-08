@@ -8,13 +8,7 @@
 .Selector.Vertical {
   flex-direction: column;
 }
-.Selector-Top {
-  background: $teal;
-}
-.Selector-Bottom {
-  flex: 1 1 auto;
-}
 
 .Selector-Bottom {
-  background: $olive;
+  flex: 1 1 auto;
 }

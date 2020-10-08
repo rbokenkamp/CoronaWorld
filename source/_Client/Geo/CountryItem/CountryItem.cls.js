@@ -10,7 +10,7 @@ module.exports = class CountryItem extends PreCore.classes.Display {
       return
     }
     const {flag, name} = data
-    this.setVars({index: +this.key, flag, name})
+    this.setVars({index, flag, name})
   }
 
 }
