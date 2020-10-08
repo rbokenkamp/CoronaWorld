@@ -9,7 +9,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 
     const index = this.scrollIndex = 0
     window.onwheel = ({deltaY}) => {
-      const negativeFactor = deltaY > 0 ? 1 : -1
+      const negativeFactor = deltaY > 0 ? -1 : 1
       this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
     }
     this.queueInterval = undefined
@@ -52,26 +52,33 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 
   setWidths() {
     const {node} = this,
-        max = {}
+        maxWidths = {}
 
     if (this.style) {
       this.setStyle()
     }
 
+    let maxHeight = 0
+
     for (const row of node.children) {
       let i = 0
+      maxHeight = Math.max(maxHeight, row.clientHeight)
       for (const column of row.children) {
         const first = column.children[0]
         const width = first.offsetWidth || first.clientWidth // SVG behaves different
-        max[i] = Math.max(max[i] === undefined ? 0 : max[i], width)
+        maxWidths[i] = Math.max(maxWidths[i] === undefined ? 0 : maxWidths[i], width)
         i++
       }
     }
 
     let style = ""
-    for (const i in max) {
-      style += `#d${this.id} .CollectionViewItem > *:nth-child(${+i + 1}) {
-width: ${max[i]}px;
+    for (const i in maxWidths) {
+      style += `
+#d${this.id} .CollectionViewItem > *:nth-child(${+i + 1}) {
+    width: ${maxWidths[i]}px;
+}
+#d${this.id} .CollectionViewItem {
+    height: ${maxHeight}px;
 }
 `
     }
@@ -130,6 +137,7 @@ width: ${max[i]}px;
         const item = Object.assign(items[i], {index, dataPath})
         item.refresh()
       }
+      const item = items[i]
       height += items[i].node.clientHeight
       if (height > parentNode.clientHeight) {
         break
