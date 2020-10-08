@@ -5,7 +5,6 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     super.created(params)
     const collection = core.get(this.dataPath)
     this.data = collection === undefined ? [] : Object.values(collection)
-    console.log("YES")
   }
 
   setWidths() {

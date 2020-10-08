@@ -2,36 +2,14 @@ module.exports = class Selector extends PreCore.classes.Display {
 
 
   create(params) {
-    params.types = ["InputListener"]
     super.create(params)
-    this.top = this.node.querySelector(".Selector-Top")
-  }
-
-  dragStart() {
-     this.startValue = this.value
-  }
-
-  adjustSteps(value) {
-    let {steps} = this
-    const negativeFactor = value < 0 ? -1 : 1
-    steps = Math.floor(steps / 2)
-    return negativeFactor * Math.round(Math.abs(value) * steps) / steps
-  }
-
-  drag(dx, dy) {
-    const {startValue, isHorizontal, node, marker} = this,
-        {clientWidth, clientHeight} = node
-
-    let value = startValue + (2 * (isHorizontal ? dx / clientWidth : dy / clientHeight)) / (1 - marker.size)
-    value = Math.min(1, Math.max(-1, this.adjustSteps(value)))
-
-    if (this.setBranch("value", value) !== undefined) {
+    this.listen({event: "set", path: this.path+"/value"}, params => {
       this.refresh()
-    }
+    })
   }
-
   draw() {
-    let {node, orientation, marker, value, top} = this,
+    let {node, orientation, marker, value} = this,
+        top = node.querySelector(".Selector-Top"),
         {size} = marker,
         {parentNode} = node,
         {clientWidth, clientHeight} = parentNode,
