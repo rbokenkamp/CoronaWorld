@@ -89,16 +89,18 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       }
     }
 
+    let lastTouch = [] // android doesn't give last pageX, pageY info on touchend
     node.ontouchstart = e => {
       let {target, pageX, pageY, touches, clientX, clientY} = e
       if (target.tagName === "INPUT") {
         return
       }
+
+      e.preventDefault()
+      e.stopPropagation()
       if (pageX === undefined) {
         const [a, b] = touches
         if (b) {
-          e.preventDefault()
-          e.stopPropagation()
           const dx = b.pageX - a.pageX,
               dy = b.pageY - a.pageY,
               distance = Math.sqrt(dx * dx + dy * dy)
@@ -115,8 +117,8 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
         clientX = clientY = pageX
         clientY = clientY = pageY
       }
-
-      window.onmousedown({target, pageX, pageY, touches, clientX, clientY,})
+      lastTouch = [clientX, clientY]
+      window.onmousedown({target, clientX, clientY})
     }
 
     node.ontouchmove = e => {
@@ -124,11 +126,11 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       if (target.tagName === "INPUT") {
         return
       }
+      e.preventDefault()
+      e.stopPropagation()
       if (pageX === undefined) {
         const [a, b] = touches
         if (b) {
-          e.preventDefault()
-          e.stopPropagation()
           const dx = b.pageX - a.pageX,
               dy = b.pageY - a.pageY,
               distance = Math.sqrt(dx * dx + dy * dy)
@@ -148,8 +150,6 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       }
 
       if (scale !== 1 || isScaling) {
-        e.preventDefault()
-        e.stopPropagation()
         isScaling = true
         const nextScale = scale / previousScale
         if (nextScale !== 1 && listenerTarget !== undefined) {
@@ -159,17 +159,22 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
         previousScale = scale
       }
 
+      lastTouch = [clientX, clientY]
       window.onmousemove({target, pageX, pageY, touches, clientX, clientY, scale})
     }
 
 
     window.ontouchend = e => {
+      let {target} = e
       isScaling = false
       previousScale = 1
-      if (e.target.tagName === "INPUT") {
+      if (target.tagName === "INPUT") {
         return
       }
-      window.onmouseup(e)
+      e.preventDefault()
+      e.stopPropagation()
+      const [clientX, clientY] = lastTouch
+      window.onmouseup({target, clientX, clientY})
     }
 
   }
