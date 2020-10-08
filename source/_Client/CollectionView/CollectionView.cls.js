@@ -5,6 +5,13 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     super.created(params)
     const collection = core.get(this.dataPath)
     this.data = collection === undefined ? [] : Object.values(collection)
+
+    const index = this.scrollIndex = 0
+    window.onwheel = ({deltaY}) => {
+      const negativeFactor = deltaY > 0 ? 1 : -1
+      this.scrollIndex += negativeFactor  * Math.max(1, Math.round(Math.abs(deltaY) / 10))
+      this.refresh()
+    }
   }
 
   setWidths() {
@@ -35,19 +42,49 @@ width: ${max[i]}px;
     this.setStyle(style)
   }
 
-
   draw() {
-    const {dataPath, data, node, items, itemType} = this,
-        {length} = data
+    const {data, node, items, itemType, scrollIndex} = this,
+        {length} = data,
+        {parentNode} = node
+
     Dom.toggleType(node, "NoData", length === 0)
     if (length === 0) {
       return Dom.set(node, "no data")
     }
 
-    for (let i = 0; i < 5; i++) {
-      const index = i
-      items.setItem("" + index, {type: itemType, index: index, dataPath: dataPath + "/" + data[index].key})
+    let i = 0,
+        height = 0
+
+    const scrollTicks = 3
+
+    const adjusted = PreCore.mod(scrollIndex / scrollTicks, data.length),
+        residu = adjusted % 1
+
+    let index = Math.floor(adjusted)
+
+    console.log({scrollIndex, adjusted, residu, index})
+    while (true) {
+      const dataPath = this.dataPath + "/" + data[index].key
+
+      if (items[i] === undefined) {
+        items.setItem("" + i, {
+          type: itemType,
+          index,
+          dataPath,
+          types: ["CollectionViewItem"]
+        })
+      } else {
+        const item = Object.assign(items[i], {index, dataPath})
+        item.refresh()
+      }
+      height += items[i].node.clientHeight
+      if (height > parentNode.clientHeight) {
+        break
+      }
+      i++
+      index = (index + 1) % length
     }
+    Dom.style(node, {"margin-top": `-${residu*items[i].node.clientHeight}px`})
     this.setWidths()
 
   }

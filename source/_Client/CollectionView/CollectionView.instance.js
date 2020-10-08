@@ -15,6 +15,10 @@ module.exports = {
   data: {
     type: "Branch", //@@@ TODO make this List
     internal: true,
+  },
+  scrollIndex: {
+    type: "Integer",
+    internal: true,
   }
 }
 

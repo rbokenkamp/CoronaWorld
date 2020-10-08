@@ -1,7 +1,7 @@
 const PreCore = module.exports = {
 
       lz: x => x > 9 ? "" + x : "0" + x,
-
+      mod: (value, modulus) => (value < 0 ? value + Math.ceil(-value / modulus) * modulus : value) % modulus
     },
 
     set = PreCore.set = (path, value) => {
