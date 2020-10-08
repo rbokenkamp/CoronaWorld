@@ -1,17 +1,53 @@
 module.exports = class CollectionView extends PreCore.classes.Display {
 
 
-  created(params) {
-    super.created(params)
+  create(params) {
+    params.types = ["InputListener"]
+    super.create(params)
     const collection = core.get(this.dataPath)
     this.data = collection === undefined ? [] : Object.values(collection)
 
     const index = this.scrollIndex = 0
     window.onwheel = ({deltaY}) => {
       const negativeFactor = deltaY > 0 ? 1 : -1
-      this.scrollIndex += negativeFactor  * Math.max(1, Math.round(Math.abs(deltaY) / 10))
-      this.refresh()
+      this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
     }
+    this.queueInterval = undefined
+    this.queue = []
+  }
+
+  drag(dx, dy, ddx, ddy) {
+    if (ddy === 0) {
+      return
+    }
+
+    //console.log(ddy)
+    const maxTicks = 4
+
+    const {queue} = this,
+        negativeFactor = ddy < 0 ? -1 : 1
+    let n = Math.abs(ddy)
+
+    while (n > maxTicks) {
+      queue.push(negativeFactor * maxTicks)
+      n -= maxTicks
+    }
+    if (n) {
+      queue.push(negativeFactor * n)
+    }
+
+    if (this.queueInterval) {
+      return
+    }
+    this.queueInterval = setInterval(() => {
+      const dy = queue.shift()
+      this.scrollIndex += dy
+      this.refresh()
+      if (queue.length === 0) {
+        clearInterval(this.queueInterval)
+        delete this.queueInterval
+      }
+    }, 5)
   }
 
   setWidths() {
@@ -42,11 +78,31 @@ width: ${max[i]}px;
     this.setStyle(style)
   }
 
-  draw() {
-    const {data, node, items, itemType, scrollIndex} = this,
-        {length} = data,
-        {parentNode} = node
+  select(params) {
+    console.log("select", params)
+    const {key} = params
+    core.trigger({event: "collection-select", key})
+  }
 
+  setSelected(key) {
+    if (this.selectedIndex) {
+      Dom.removeType(this.items[this.selectedIndex].node, "selected")
+    }
+    const index = this.data.findIndex(value => value.key === key)
+    Dom.addType(this.items[index].node, "selected")
+    this.selectedIndex = index
+  }
+
+
+  draw() {
+    const scrollTicks = 3,
+        changeFontSizeWidth = 400,
+        {data, node, items, itemType, scrollIndex} = this,
+        {length} = data,
+        {parentNode, clientWidth} = node,
+        fontSize = clientWidth >= changeFontSizeWidth ? "" : clientWidth / changeFontSizeWidth * 16
+
+    Dom.style(node, {"font-size": `${fontSize}px`})
     Dom.toggleType(node, "NoData", length === 0)
     if (length === 0) {
       return Dom.set(node, "no data")
@@ -55,14 +111,11 @@ width: ${max[i]}px;
     let i = 0,
         height = 0
 
-    const scrollTicks = 3
 
     const adjusted = PreCore.mod(scrollIndex / scrollTicks, data.length),
         residu = adjusted % 1
 
     let index = Math.floor(adjusted)
-
-    console.log({scrollIndex, adjusted, residu, index})
     while (true) {
       const dataPath = this.dataPath + "/" + data[index].key
 
@@ -84,7 +137,7 @@ width: ${max[i]}px;
       i++
       index = (index + 1) % length
     }
-    Dom.style(node, {"margin-top": `-${residu*items[i].node.clientHeight}px`})
+    Dom.style(node, {"margin-top": `-${residu * items[i].node.clientHeight}px`})
     this.setWidths()
 
   }

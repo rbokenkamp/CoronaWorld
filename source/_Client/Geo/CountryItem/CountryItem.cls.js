@@ -14,8 +14,8 @@ module.exports = class CountryItem extends PreCore.classes.Display {
       return
     }
 
-    const {flag, name} = data
-    this.setVars({index, flag, name})
+    const {flag, name, population} = data
+    this.setVars({index, flag, name, population: PostCore.formatNumber(population)})
 
   }
 

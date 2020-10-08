@@ -2,7 +2,6 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
 
 
   create(params) {
-    this.checkDevice(params)
     super.create(params)
 
     this.createKeyboard()
@@ -12,13 +11,13 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
   createKeyboard() {
     const {fullClient} = this
     document.onkeypress = e => {
-      const {code, shiftKey} = e
       console.log(e)
-      if (fullClient && code === "Space") {
-        if (document.fullclientElement) {
-          document.exitFullclient()
+      const {code, shiftKey} = e
+      if (code === "Space" && document.fullscreenEnabled) {
+        if (document.fullscreenElement) {
+          document.exitFullscreen()
         } else {
-          document.body.requestFullclient()
+          document.body.requestFullscreen()
         }
       }
     }
@@ -169,19 +168,5 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
 
   }
 
-  checkDevice(params) {
-    params.fullClient = document.fullclientEnabled
-
-    try {
-      const event = document.createEvent("TouchEvent")
-      PostCore.log(event)
-      params.hasTouch = true
-      params.isAndroid = "touches" in event
-    } catch (e) {
-      params.hasTouch = false
-      params.isAndroid = false
-    }
-
-  }
 
 }

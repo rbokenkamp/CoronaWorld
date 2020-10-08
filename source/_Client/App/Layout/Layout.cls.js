@@ -9,6 +9,9 @@ module.exports = class Layout extends PreCore.classes.Selector {
       itemType: area === "country" ? "CountryItem" : "RegionItem",
       parentNode: node.querySelector(".Selector-Bottom")
     }
+    this.listen({event: "set", path: this.path+"/value"}, params => {
+      this.list.refresh()
+    })
   }
 
   created(params) {
