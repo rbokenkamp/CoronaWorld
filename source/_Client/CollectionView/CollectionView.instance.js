@@ -19,6 +19,11 @@ module.exports = {
   scrollIndex: {
     type: "Integer",
     internal: true,
-  }
+  },
+  bindPath: "Path",
+  scrollTicks: {
+    type: "Integer",
+    defaultValue: 3,
+  },
 }
 

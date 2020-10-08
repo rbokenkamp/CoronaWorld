@@ -141,7 +141,12 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
   set(params, path) {
     if (path) {
-      raise(new Error("TODO"))
+      path = path.substr(1)
+      const index = path.indexOf("/")
+      if (index === -1) {
+        return this.setBranch(path, params)
+      }
+      return this[path.substr(0, index)].set(params, path.substr(index ))
     }
 
     for (const key in params) {
@@ -165,8 +170,20 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
     params.parent = this
 
-    const instance = core.instance(params)
-    return this[key] = instanceOf(instance, "Collection") ? instance.items : instance
+    const {kind} = types[type]
+    const cls = PreCore.classes[params.type]
+    const branch = new cls()
+    if (kind === "Collection") {
+      if (!instanceOf(params.items, "Data")) {
+        params.items = new classes.Data(params.items)
+      }
+      this[key] = params.items
+    }
+    else {
+      this[key] = branch
+    }
+    core.instance(params, branch)
+    return this[key]
   }
 
 

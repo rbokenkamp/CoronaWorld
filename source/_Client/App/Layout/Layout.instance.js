@@ -5,4 +5,6 @@ module.exports = {
     defaultValue: "country",
   },
   list: "CollectionView",
+  selectedCountry: "Text",
+  selectedRegion: "Text",
 }

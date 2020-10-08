@@ -15,7 +15,7 @@ module.exports = class CountryItem extends PreCore.classes.Display {
     }
 
     const {flag, name, population} = data
-    this.setVars({index, flag, name, population: PostCore.formatNumber(population)})
+    this.setVars({index, flag, name, population: population === undefined ? "-" : PostCore.formatNumber(population)})
 
   }
 

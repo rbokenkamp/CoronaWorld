@@ -4,17 +4,33 @@ module.exports = class CollectionView extends PreCore.classes.Display {
   create(params) {
     params.types = ["InputListener"]
     super.create(params)
-    const collection = core.get(this.dataPath)
-    this.data = collection === undefined ? [] : Object.values(collection)
+    const {dataPath, bindPath, scrollTicks} = this
+    const collection = core.get(dataPath),
+        data = this.data = collection === undefined ? [] : Object.values(collection)
+    data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
 
-    const index = this.scrollIndex = 0
+    this.scrollIndex = 0
     window.onwheel = ({deltaY}) => {
       const negativeFactor = deltaY > 0 ? -1 : 1
       this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
     }
     this.queueInterval = undefined
     this.queue = []
+    if (bindPath) {
+      const key = this.selected = core.get(bindPath),
+          index = data.findIndex(a => a.key === key)
+
+      if (index !== -1) {
+        this.scrollIndex = scrollTicks * index
+      }
+      // console.log( core.app.layout)
+      this.listen({event: "set", path: bindPath}, ({value}) => {
+        this.selected = value
+        this.draw()
+      })
+    }
   }
+
 
   drag(dx, dy, ddx, ddy) {
     if (ddy === 0) {
@@ -86,10 +102,12 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     return maxHeight
   }
 
-  select(params) {
-    console.log("select", params)
-    const {key} = params
-    core.trigger({event: "collection-select", key})
+  select({key}) {
+    const {bindPath} = this
+    if (bindPath) {
+      core.set(key, bindPath)
+    }
+    this.selected = key
   }
 
   setSelected(key) {
@@ -103,9 +121,8 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 
 
   draw() {
-    const scrollTicks = 3,
-        changeFontSizeWidth = 400,
-        {data, node, items, itemType, scrollIndex} = this,
+    const changeFontSizeWidth = 400,
+        {scrollTicks, data, node, items, itemType, scrollIndex, selected} = this,
         {length} = data,
         {parentNode, clientWidth} = node,
         fontSize = clientWidth >= changeFontSizeWidth ? "" : clientWidth / changeFontSizeWidth * 16
@@ -125,7 +142,8 @@ module.exports = class CollectionView extends PreCore.classes.Display {
 
     let index = Math.floor(adjusted)
     while (true) {
-      const dataPath = this.dataPath + "/" + data[index].key
+      const key = data[index].key
+      const dataPath = this.dataPath + "/" + key
 
       if (items[i] === undefined) {
         items.setItem("" + i, {
@@ -138,8 +156,14 @@ module.exports = class CollectionView extends PreCore.classes.Display {
         const item = Object.assign(items[i], {index, dataPath})
         item.refresh()
       }
-      const item = items[i]
-      height += items[i].node.clientHeight
+      const item = items[i],
+          itemNode = item.node
+      height += itemNode.clientHeight
+      Dom.toggleType(itemNode, "selected", selected === key)
+      Dom.setAttributes(itemNode, {
+        "data-event": "select",
+        "data-key": key
+      })
       if (height > parentNode.clientHeight) {
         break
       }
