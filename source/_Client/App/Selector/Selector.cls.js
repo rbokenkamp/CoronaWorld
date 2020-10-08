@@ -26,7 +26,7 @@ module.exports = class Selector extends PreCore.classes.Display {
     value = Math.min(1, Math.max(-1, this.adjustSteps(value)))
 
     if (this.setBranch("value", value) !== undefined) {
-      this.refresh(() => marker.draw())
+      this.refresh()
     }
   }
 

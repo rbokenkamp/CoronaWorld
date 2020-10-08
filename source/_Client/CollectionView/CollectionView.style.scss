@@ -1,12 +1,11 @@
 @import "colors";
 
 .CollectionView {
-
   display: flex;
   flex-direction: column;
 
   &.NoData {
-    align-items: center;
+     align-items: center;
     justify-content: center;
    }
 
