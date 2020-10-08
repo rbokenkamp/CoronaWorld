@@ -4,6 +4,7 @@ module.exports = class Selector extends PreCore.classes.Display {
   create(params) {
     params.types = ["InputListener"]
     super.create(params)
+    this.top = this.node.querySelector(".Selector-Top")
   }
 
   dragStart() {
@@ -30,7 +31,8 @@ module.exports = class Selector extends PreCore.classes.Display {
   }
 
   draw() {
-    let {node, orientation, marker, value} = this,
+    let {node, orientation, marker, value, top} = this,
+        {size} = marker,
         {parentNode} = node,
         {clientWidth, clientHeight} = parentNode,
         landscape = clientWidth > clientHeight,
@@ -38,6 +40,19 @@ module.exports = class Selector extends PreCore.classes.Display {
 
     Dom[(isHorizontal ? "add" : "remove") + "Type"](node, "Horizontal")
     Dom[(isHorizontal ? "remove" : "add") + "Type"](node, "Vertical")
+
+    if (isHorizontal) {
+      Dom.style(top, {
+        width: `${ (value+1)/2*(1-size)*node.clientWidth}px`,
+        height: "",
+      })
+    }
+    else {
+      Dom.style(top, {
+        width: "",
+        height: `${ (value+1)/2*(1-size)*node.clientHeight}px`,
+      })
+    }
 
   }
 }

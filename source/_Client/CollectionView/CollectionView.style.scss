@@ -1,0 +1,13 @@
+@import "colors";
+
+.CollectionView {
+
+  &.NoData {
+    align-items: center;
+    justify-content: center;
+    color: $grey;
+
+  }
+
+}
+

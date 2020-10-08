@@ -24,7 +24,6 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
       this.parseTemplate(params, node)
     } else {
       const template = this.getTemplate()
-      console.log(this.path, template)
       if (template) {
         this.setTemplate(params, template)
       }
@@ -37,13 +36,9 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
 
   build(params) {
-    //   console.log(params.key, "BEFORE CREATE")
     this.create(params)
-    //   console.log(this.path, "AFTER CREATE")
     this.init && this.init(params)
-//    console.log(this.path, "AFTER INIT")
     this.created(params)
-    //   console.log(this.path, "AFTER CREATED")
   }
 
   init(params) {
@@ -116,7 +111,6 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
   getTypes() {
     const types = this.types ? this.types : []
     let type = this.type
-    console.log(this.path, types, type)
     while (true) {
       types.unshift(type)
       if (type === undefined) {
@@ -125,13 +119,11 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
       if (type === "Display") {
         return types
       }
-      console.log(type)
       type = core.types[type].extend
     }
   }
 
   draw() {
-    console.log("DRAW", this.path)
   }
 
   refresh(handler) {

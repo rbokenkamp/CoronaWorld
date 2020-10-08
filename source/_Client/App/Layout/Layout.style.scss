@@ -1,6 +1,34 @@
 @import "colors";
 
 .Layout {
-   font-size: 33px;
-/*  background: white; */
+  background: black;
+
+  .Layout-List {
+    background: $blue;
+    position: absolute;
+  }
+
+
+  &.Horizontal .Menu {
+    flex-direction: column;
+  }
+
+  .CollectionView {
+    border: 10px solid gold;
+  }
+
+  .CollectionViewItem {
+    border-bottom: 1px solid lightblue;
+  }
+
+  .CollectionViewItem.selected {
+    background: $orange;
+    color: white;
+  }
+
+  .Marker {
+    background: white;
+
+  }
+
 }

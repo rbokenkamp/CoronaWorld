@@ -1,16 +1,18 @@
 @import "colors";
 
 .Marker {
-  position: absolute;
   cursor: pointer;
-  background: $blue;
 
-  &.Zero {
-    background: $teal;
-  }
+  &.Marker-Colored {
+    background: $blue;
 
-  &.Boundary {
-    background: $purple;
+    &.Zero {
+      background: $teal;
+    }
+
+    &.Boundary {
+      background: $purple;
+    }
   }
 
 }
