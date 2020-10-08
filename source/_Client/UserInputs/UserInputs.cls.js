@@ -24,7 +24,7 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
   }
 
   createMouse() {
-    const {node} = this
+    const node = document.body.querySelector(".App")
     let listenerTarget,
         dragging,
         position,
@@ -32,6 +32,12 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
         isScaling = false,
         previousScale = 1,
         touchDistance
+
+    window.onwheel = ({deltaY}) => {
+      if (listenerTarget && listenerTarget.wheel) {
+        listenerTarget.wheel(deltaY)
+      }
+    }
 
     window.onmousedown = e => {
       const {target, clientX, clientY} = e
@@ -83,7 +89,7 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       }
     }
 
-    window.ontouchstart = e => {
+    node.ontouchstart = e => {
       let {target, pageX, pageY, touches, clientX, clientY} = e
       if (target.tagName === "INPUT") {
         return
@@ -113,7 +119,7 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       window.onmousedown({target, pageX, pageY, touches, clientX, clientY,})
     }
 
-    window.ontouchmove = e => {
+    node.ontouchmove = e => {
       let {target, pageX, pageY, touches, clientX, clientY, scale} = e
       if (target.tagName === "INPUT") {
         return
@@ -142,17 +148,17 @@ module.exports = class UserInputs extends PreCore.classes.Tree {
       }
 
       if (scale !== 1 || isScaling) {
-        //  e.preventDefault()
-        //  e.stopPropagation()
+        e.preventDefault()
+        e.stopPropagation()
         isScaling = true
         const nextScale = scale / previousScale
-        //  PostCore.log({scale, result: (nextScale !== 1 && dragTarget !== undefined})
-        if (nextScale !== 1 && dragTarget !== undefined) {
-          dragTarget.setScale && dragTarget.setScale(nextScale)
+        if (nextScale !== 1 && listenerTarget !== undefined) {
+          listenerTarget.setScale && listenerTarget.setScale(nextScale)
         }
 
         previousScale = scale
       }
+
       window.onmousemove({target, pageX, pageY, touches, clientX, clientY, scale})
     }
 

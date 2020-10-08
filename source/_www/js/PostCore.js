@@ -40,7 +40,7 @@ const PostCore = module.exports = {}
 
         }
 
-        lg =floor(lg) - 1
+        lg = floor(lg) - 1
 
         const y = pow(10, -lg)
         return round(x * y) / y
@@ -49,6 +49,17 @@ const PostCore = module.exports = {}
         const dx = x2 - x1,
             dy = y2 - y1
         return abs(x0 * dy - y0 * dx + x2 * y1 - y2 * x1) / sqrt(dx * dx + dy * dy)
+      },
+      getArea = PostCore.getArea = points => {
+        let result = 0
+        const {length} = points
+        for (let i in points) {
+          i = +i
+          const [x1, y1] = points[i],
+              [x2, y2] = points[i < length - 1 ? i + 1 : 0]
+          result += x1 * y2 - y1 * x2
+        }
+        return abs(result / 2)
       }
 
 }

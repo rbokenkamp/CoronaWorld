@@ -3,6 +3,14 @@
 .Layout {
   background: black;
 
+
+  .Selector-Top {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .Selector-Bottom {
     background: $blue;
     color: white;
@@ -25,7 +33,7 @@
   }
 
   .CollectionViewItem {
-    border-bottom: 1px solid lightblue;
+    border-bottom: 1px solid rgba(255,255,255,.5);
   }
 
   .CollectionViewItem.selected {
@@ -39,3 +47,26 @@
   }
 
 }
+
+/*
+<div class="Horizontal-Rule"></div>
+<div class="Vertical-Rule"></div>
+
+                             .Selector-Top {
+  position: relative;
+}
+
+.Horizontal-Rule {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  border-top: 1px solid gold;
+}
+
+.Vertical-Rule {
+  position: absolute;
+  left: 50%;
+  border-left: 1px solid gold;
+  height: 100%;
+}
+*/

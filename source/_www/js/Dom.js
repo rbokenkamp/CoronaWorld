@@ -60,7 +60,7 @@ const Dom = {
     delete params.event
     let current = node
     while (current !== document.body) {
-      const id = Dom.getAttribute(current, "id")
+       const id = Dom.getAttribute(current, "id")
       if (id) {
         const instance = PreCore.instances[id.substr(1)]
         if (event in instance) {
@@ -69,6 +69,7 @@ const Dom = {
       }
       current = current.parentNode
     }
+    return []
   },
   set: (node, value) => node.innerHTML = value,
   style: (node, params) => Object.assign(node.style, params),

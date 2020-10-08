@@ -1,9 +1,9 @@
 @import "colors";
 
 .MapView {
-  background: black;
   width: 2058px;
   height: 1036px;
+  flex: 1 0 auto;
 
   path {
     stroke: hsla(0, 100%, 50%, 1);
