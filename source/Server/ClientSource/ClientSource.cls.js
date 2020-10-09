@@ -222,6 +222,7 @@ const ClientSource = module.exports = class extends PreCore.classes.Tree {
   }
 
   addCoronaDataWatchForAws() {
+    return
     const {home} = core,
         {watches} = this,
         path = home + "/Corona/data/timeline"
