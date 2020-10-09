@@ -9,8 +9,9 @@ module.exports = class QrCode extends PreCore.classes.Display {
  }
 
    draw() {
+    console.log(location)
     const {canvas, code} = this,
-        url = `http://192.168.1.67:3000/qr?${code}`,
+        url = `${location.origin}/qr?${code}`,
         {offsetWidth, offsetHeight} = canvas
 
     QRCode.toCanvas(canvas, url,

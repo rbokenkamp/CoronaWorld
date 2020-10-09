@@ -4,7 +4,7 @@ module.exports = class RemoteClient extends PreCore.classes.RemoteRole {
     super.create(params)
     Dom.addType(this.parent.node, "Remote-Client")
     const {code} = this,
-        url = this.url = "ws://" + location.host + "/client?" + code,
+        url = this.url = location.origin.replace(/^http/, "ws") + "/client?" + code,
         socket = this.socket = new WebSocket(url)
 
 

@@ -6,7 +6,7 @@ const RemoteHost = module.exports = class RemoteHost extends PreCore.classes.Rem
     super.create(params)
     const {code, parent} = this
 
-    const url = this.url = "ws://" + location.host + "/host?" + code,
+    const url = this.url = location.origin.replace(/^http/, "ws")+ "/host?" + code,
         socket = this.socket = new WebSocket(url)
 
     socket.addEventListener('message', ({data}) => {
