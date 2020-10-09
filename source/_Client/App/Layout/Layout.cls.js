@@ -1,7 +1,6 @@
 module.exports = class Layout extends PreCore.classes.Selector {
 
   create(params) {
-    params.value = .5
     super.create(params)
     const {area, node} = this
     params.list = {

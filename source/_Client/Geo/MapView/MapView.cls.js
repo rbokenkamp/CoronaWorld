@@ -15,6 +15,13 @@ module.exports = class MapView extends PreCore.classes.Widget {
     }
   }
 
+  select({key}) {
+    const {bindPath} = this
+    if (bindPath) {
+      return core.set(key, bindPath)
+    }
+    this.setValue(key)
+  }
   getPaths(key) {
     const {countries} = core,
         {paths} = this
