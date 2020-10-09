@@ -167,6 +167,11 @@ const PreCore = module.exports = {
         }
 
         return "" + value
+      },
+      fromSource = PreCore.fromSource = s => {
+        let parsed
+        eval("parsed="+s)
+        return parsed
       }
 
 

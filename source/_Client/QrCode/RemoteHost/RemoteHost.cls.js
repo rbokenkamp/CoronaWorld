@@ -11,7 +11,7 @@ const RemoteHost = module.exports = class RemoteHost extends PreCore.classes.Rem
 
     socket.addEventListener('message', ({data}) => {
       console.log('@@@ ', data);
-      data = JSON.parse(data)
+      data = PreCore.fromSource(data)
       if (data.connected) {
         return parent.qrCode && parent.qrCode.release()
       }

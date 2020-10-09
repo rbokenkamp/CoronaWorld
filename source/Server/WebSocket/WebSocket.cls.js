@@ -20,7 +20,7 @@ module.exports = class WebSocket extends PreCore.classes.Tree {
       if (role === "host") {
         codeObj.host = socket
       } else {
-        codeObj.host.send(JSON.stringify({connected: true}))
+        codeObj.host.send(PreCore.toSource({connected: true}))
       }
       codeLinks[id] = socket
 

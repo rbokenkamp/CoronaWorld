@@ -11,7 +11,7 @@ module.exports = class RemoteClient extends PreCore.classes.RemoteRole {
 // Listen for messages
     socket.addEventListener('message', ({data}) => {
       console.log('@@@ ', data);
-      data = JSON.parse(data)
+      data = PreCore.fromSource(data)
       this.handleMessage(data)
     })
 
