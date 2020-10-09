@@ -98,7 +98,10 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       }
       value = cls.validate(this, path, meta, value)
       if (value === undefined) {
-        // @@@ TODO REMOVE BRANCH
+        if (this[key] !== undefined) {
+          core.trigger({event: "set", path, value})
+          delete this[key]
+        }
         return
       }
 

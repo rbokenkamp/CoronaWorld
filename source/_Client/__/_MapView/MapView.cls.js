@@ -20,12 +20,6 @@ module.exports = class MapView extends PreCore.classes.Widget {
       this.setScale(deltaY > 0 ? .9 : 1.1)
     }
 
-    // const {location} = core.countries.nl,
-    //     [x, y] = location
-
-    //   this.x = x
-    //   this.y = -y
-//    console.log(location)
   }
 
   dragStart() {

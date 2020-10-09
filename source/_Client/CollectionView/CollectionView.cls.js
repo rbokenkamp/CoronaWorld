@@ -10,7 +10,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
 
     this.scrollIndex = 0
-     this.queueInterval = undefined
+    this.queueInterval = undefined
     this.queue = []
     if (bindPath) {
       const key = this.selected = core.get(bindPath),
@@ -19,17 +19,22 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       if (index !== -1) {
         this.scrollIndex = scrollTicks * index
       }
+
+
       // console.log( core.app.layout)
       this.listen({event: "set", path: bindPath}, ({value}) => {
         this.selected = value
+        const index = data.findIndex(a => a.key === value)-Math.floor(this.count/2)
+        this.scrollIndex = scrollTicks * index
         this.draw()
       })
     }
   }
 
+
   wheel(deltaY) {
-      const negativeFactor = deltaY > 0 ? -1 : 1
-      this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
+    const negativeFactor = deltaY > 0 ? -1 : 1
+    this.drag(0, 0, 0, negativeFactor * Math.max(1, Math.round(Math.abs(deltaY) / 10)))
   }
 
   drag(dx, dy, ddx, ddy) {
@@ -170,6 +175,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       i++
       index = (index + 1) % length
     }
+    this.count = i
     const maxHeight = this.setWidths()
     Dom.style(node, {"margin-top": `-${residu * maxHeight}px`})
 

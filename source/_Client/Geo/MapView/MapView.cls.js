@@ -3,7 +3,7 @@ module.exports = class MapView extends PreCore.classes.Widget {
   create(params) {
     params.types = ["InputListener"]
     super.create(params)
-    const {bindPath} = this
+    const {bindPath, node} = this
     this.paths = {}
     this.initMap()
     if (bindPath) {
@@ -13,6 +13,7 @@ module.exports = class MapView extends PreCore.classes.Widget {
         this.setValue(value)
       })
     }
+    Dom.setAttributes(node, {"data-event": "select"})
   }
 
   select({key}) {
@@ -22,20 +23,12 @@ module.exports = class MapView extends PreCore.classes.Widget {
     }
     this.setValue(key)
   }
+  
   getPaths(key) {
     const {countries} = core,
         {paths} = this
 
     return paths[key]
-
-/*
-    let result = []
-    for (const alpha2 of core[selectorType][key].countries) {
-      result = result.concat(paths[alpha2])
-    }
-    return result
-
- */
   }
 
   setValue(value, init) {
