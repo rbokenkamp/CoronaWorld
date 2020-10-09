@@ -18,4 +18,8 @@ module.exports = class Layout extends PreCore.classes.Selector {
     })
   }
 
+  selectAspect({value}) {
+    this.setBranch("aspect", value)
+  }
+
 }

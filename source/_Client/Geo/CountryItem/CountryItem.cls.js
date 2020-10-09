@@ -15,7 +15,7 @@ module.exports = class CountryItem extends PreCore.classes.Display {
     }
 
     const {aspect} = this.parent.parent,
-        score = data.getAspect(aspect),
+        score = data.getScore(aspect),
         {flag, name} = data
     this.setVars({index, flag, name, score: score === undefined ? "-" : PostCore.formatNumber(score)})
   }

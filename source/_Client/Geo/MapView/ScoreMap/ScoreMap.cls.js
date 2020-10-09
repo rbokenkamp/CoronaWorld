@@ -15,7 +15,7 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
     const aspect = core.get(aspectBind)
     console.log(aspect)
     for (const key in countries) {
-      const score = countries[key].getAspect(aspect)
+      const score = countries[key].getScore(aspect)
       if (score !== undefined) {
         stats[key] = score
         maximum = score > maximum ? score : maximum

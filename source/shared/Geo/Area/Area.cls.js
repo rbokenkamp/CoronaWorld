@@ -9,7 +9,7 @@ module.exports = class Area extends PreCore.classes.Tree {
     return deaths * 365 / this.population
   }
 
-  getAspect(aspect) {
+  getScore(aspect) {
     return aspect === "infections" ? this.getCoi() : this.getCod()
   }
 
@@ -31,7 +31,7 @@ module.exports = class Area extends PreCore.classes.Tree {
     return population/area
   }
 
-  getAspect(aspect) {
+  getScore(aspect) {
    if (aspect === "density") {
       return this.getDensity()
     }
