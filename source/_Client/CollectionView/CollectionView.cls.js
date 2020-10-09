@@ -7,7 +7,9 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     const {dataPath, bindPath, scrollTicks} = this
     const collection = core.get(dataPath),
         data = this.data = collection === undefined ? [] : Object.values(collection)
-    data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
+   // data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
+   // data.sort((a, b) => (a.area || 0) > (b.area || 0) ? -1 : 1)
+    data.sort((a, b) => (a.getDensity() || 0) > (b.getDensity() || 0) ? -1 : 1)
 
     this.scrollIndex = 0
     this.queueInterval = undefined

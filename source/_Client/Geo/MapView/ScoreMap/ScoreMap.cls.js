@@ -12,11 +12,23 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
     const stats = {}
     let maximum = 0
     for (const key in countries) {
-      const {population} = countries[key]
+      const density = countries[key].getDensity()
+      if (density !== undefined) {
+        stats[key] = density
+        maximum = density > maximum ? density : maximum
+      }
+      /*
+       if (area !== undefined) {
+        stats[key] = area
+        maximum = area > maximum ? area : maximum
+      }
+     const {population} = countries[key]
       if (population !== undefined) {
         stats[key] = population
         maximum = population > maximum ? population : maximum
       }
+
+       */
     }
 
     for (const key in stats) {

@@ -6,9 +6,7 @@ module.exports = class MapView extends PreCore.classes.Widget {
     const {bindPath, node} = this
     this.paths = {}
 
-    this.areas = {}
     this.initMap()
-    console.log(JSON.stringify(this.areas))
     if (bindPath) {
       const key = core.get(bindPath)
       this.setValue(key, true)
@@ -104,7 +102,6 @@ module.exports = class MapView extends PreCore.classes.Widget {
         areaPaths = paths[key] = []
 
     const {length} = shapes
-    let area = 0
     for (const i in shapes) {
       const points = []
       const path = Dom.create({
@@ -122,12 +119,9 @@ module.exports = class MapView extends PreCore.classes.Widget {
         points.push([x, y])
       }
 
-      area += PostCore.getArea(points)
-
       Dom.setAttribute(path, "d", d)
     }
-    this.areas[key] = area
-  }
+ }
 
   initMap() {
     const {countries} = core

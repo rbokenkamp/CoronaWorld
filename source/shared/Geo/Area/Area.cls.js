@@ -24,7 +24,11 @@ module.exports = class Area extends PreCore.classes.Tree {
   }
 
   getDensity() {
-    return this.population/this.area
+    const {population, area} = this
+    if (population === undefined || area === undefined || area === 0) {
+      return
+    }
+    return population/area
   }
 
 }
