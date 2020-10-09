@@ -9,6 +9,7 @@ module.exports = {
     required: true,
   },
   population: "Integer",
+  area: "Real",
   /*
   timeline: "Branch",
   stats: "Branch",

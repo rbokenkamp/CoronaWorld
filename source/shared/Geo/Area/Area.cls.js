@@ -23,4 +23,8 @@ module.exports = class Area extends PreCore.classes.Tree {
     return deaths * 1000000/ this.population
   }
 
+  getDensity() {
+    return this.population/this.area
+  }
+
 }

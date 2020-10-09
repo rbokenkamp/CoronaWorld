@@ -108,6 +108,17 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
     Dom.set(this.style, css)
   }
 
+  setStyle2(css) {
+    if (css === undefined && this.style2) {
+      this.style2.remove()
+      delete this.style2
+    }
+    if ("style2" in this === false) {
+      this.style2 = Dom.create({parent: document.head, tag: "style", attributes: {"data-key": "d" + this.id+"-2"}})
+    }
+    Dom.set(this.style2, css)
+  }
+
   getTypes() {
     const types = this.types ? this.types : []
     let type = this.type
