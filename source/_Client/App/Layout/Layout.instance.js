@@ -8,4 +8,9 @@ module.exports = {
   list: "CollectionView",
   selectedCountry: "Text",
   selectedRegion: "Text",
+  aspect: {
+    type: "Choice",
+    choices: ["density", "population", "area"],
+    defaultValue: "density",
+  }
 }

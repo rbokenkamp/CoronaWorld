@@ -14,12 +14,10 @@ module.exports = class CountryItem extends PreCore.classes.Display {
       return
     }
 
-    const {flag, name, population, area} = data
-    const density = data.getDensity()
-    this.setVars({index, flag, name, population: density === undefined ? "-" : PostCore.formatNumber(density)})
-   // this.setVars({index, flag, name, population: area === undefined ? "-" : PostCore.formatNumber(area)})
-    //  this.setVars({index, flag, name, population: population === undefined ? "-" : PostCore.formatNumber(population)})
-
+    const {aspect} = this.parent.parent,
+        score = data.getAspect(aspect),
+        {flag, name} = data
+    this.setVars({index, flag, name, score: score === undefined ? "-" : PostCore.formatNumber(score)})
   }
 
 }

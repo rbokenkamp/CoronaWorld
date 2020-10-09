@@ -21,6 +21,7 @@ module.exports = {
     internal: true,
   },
   bindPath: "Path",
+  aspectBind: "Path",
   scrollTicks: {
     type: "Integer",
     defaultValue: 3,

@@ -31,4 +31,16 @@ module.exports = class Area extends PreCore.classes.Tree {
     return population/area
   }
 
+  getAspect(aspect) {
+   if (aspect === "density") {
+      return this.getDensity()
+    }
+    if (aspect === "population") {
+      return this.population
+    }
+    if (aspect === "area") {
+      return this.area
+    }
+  }
+
 }

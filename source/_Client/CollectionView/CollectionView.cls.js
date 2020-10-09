@@ -4,13 +4,13 @@ module.exports = class CollectionView extends PreCore.classes.Display {
   create(params) {
     params.types = ["InputListener"]
     super.create(params)
-    const {dataPath, bindPath, scrollTicks} = this
-    const collection = core.get(dataPath),
+    const {dataPath, aspectBind, bindPath, scrollTicks} = this,
+        aspect = this.aspect = core.get(aspectBind),
+        collection = core.get(dataPath),
         data = this.data = collection === undefined ? [] : Object.values(collection)
-   // data.sort((a, b) => (a.population || 0) > (b.population || 0) ? -1 : 1)
-   // data.sort((a, b) => (a.area || 0) > (b.area || 0) ? -1 : 1)
-    data.sort((a, b) => (a.getDensity() || 0) > (b.getDensity() || 0) ? -1 : 1)
+    data.sort((a, b) => (a.getAspect(aspect) || 0) > (b.getAspect(aspect) || 0) ? -1 : 1)
 
+    console.log("@@@", aspect)
     this.scrollIndex = 0
     this.queueInterval = undefined
     this.queue = []
@@ -26,7 +26,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       // console.log( core.app.layout)
       this.listen({event: "set", path: bindPath}, ({value}) => {
         this.selected = value
-        const index = data.findIndex(a => a.key === value)-Math.floor(this.count/2)
+        const index = data.findIndex(a => a.key === value) - Math.floor(this.count / 2)
         this.scrollIndex = scrollTicks * index
         this.draw()
       })
