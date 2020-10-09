@@ -12,5 +12,8 @@ module.exports = {
     type: "Choice",
     choices: ["density", "population", "area"],
     defaultValue: "density",
-  }
+  },
+  qrCode: "QrCode",
+  remoteHost: "RemoteHost",
+  remoteClient: "RemoteClient",
 }

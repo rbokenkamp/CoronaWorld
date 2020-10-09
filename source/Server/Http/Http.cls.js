@@ -44,9 +44,8 @@ const mimes = {
               }
 
 
-              const fullPath = request.url === "/" ? "/index.html" : request.url.replace(/\?.*/, "")
-              let [path, id] = fullPath.split("?")
-              path = path === "/qr" ? "/index.html" : path
+              let [path, id] = request.url.split("?")
+              path = path === "/" || path === "/qr" ? "/index.html" : path
               const {paths, timestamps} = clientSource,
                   index = path.lastIndexOf("."),
                   ext = path.substr(index + 1),

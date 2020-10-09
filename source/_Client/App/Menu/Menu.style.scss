@@ -3,12 +3,28 @@
 .Menu {
    display: flex;
    align-items: center;
-   justify-content: center;
-   & > * {
-      padding: 5px;
+   justify-content: space-between;
+   & > div > span {
+      padding: 10px;
    }
 
    .selected {
       color: $pink;
+   }
+
+   & > div {
+      display: flex;
+   }
+}
+
+.Remote-Client .Menu [data-event=generateQr] {
+   display: none;
+}
+
+.Layout.Horizontal .Menu {
+   flex-direction: column;
+
+   & > div {
+      flex-direction: column;
    }
 }

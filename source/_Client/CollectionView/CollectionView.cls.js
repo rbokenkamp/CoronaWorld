@@ -65,7 +65,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
     const maxTicks = 4
 
     const {queue} = this,
-        negativeFactor = ddy < 0 ? -1 : 1
+        negativeFactor = ddy < 0 ? 1 : -1
     let n = Math.abs(ddy)
 
     while (n > maxTicks) {

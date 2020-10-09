@@ -68,7 +68,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     }
   }
 
-  setBranch(key, value, isCreate) {
+  setBranch(key, value, isCreate, originator) {
     const path = this.path + "/" + key,
         {types, classes, merge} = PreCore,
         metas = types[this.type].instance,
@@ -99,7 +99,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
       value = cls.validate(this, path, meta, value)
       if (value === undefined) {
         if (this[key] !== undefined) {
-          core.trigger({event: "set", path, value})
+          core.trigger({event: "set", path, value, originator})
           delete this[key]
         }
         return
@@ -109,12 +109,13 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         return
       }
       this[key] = value
-      core.trigger({event: "set", path, value})
+      core.trigger({event: "set", path, value, originator})
       return value
     }
 
     let branch = this[key]
     if (branch !== undefined) {
+      console.log("@@@", branch)
       return branch.set(value)
     }
 
@@ -142,14 +143,14 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
     return branch
   }
 
-  set(params, path) {
+  set(params, path, originator) {
     if (path) {
       path = path.substr(1)
       const index = path.indexOf("/")
       if (index === -1) {
-        return this.setBranch(path, params)
+        return this.setBranch(path, params, false, originator)
       }
-      return this[path.substr(0, index)].set(params, path.substr(index ))
+      return this[path.substr(0, index)].set(params, path.substr(index ), originator)
     }
 
     for (const key in params) {
@@ -157,7 +158,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
         // @@@ TODO -> REMOVE BRANCH
         continue
       }
-      this.setBranch(key, params[key])
+      this.setBranch(key, params[key], false, originator)
     }
   }
 

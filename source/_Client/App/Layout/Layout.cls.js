@@ -1,7 +1,6 @@
 module.exports = class Layout extends PreCore.classes.Selector {
 
   create(params) {
-    params.value = 0.5
     super.create(params)
     const {area, node} = this
     params.list = {
@@ -16,10 +15,19 @@ module.exports = class Layout extends PreCore.classes.Selector {
       this.map.draw()
       this.list.draw()
     })
+
+    if (location.pathname === "/qr") {
+      this.branch({key: "qrClient", type: "RemoteClient", code: location.search.substr(1)})
+    }
   }
 
   selectAspect({value}) {
     this.setBranch("aspect", value)
+  }
+
+  generateQr() {
+    const qr = this.branch({key: "qrCode", type: "QrCode"})
+   qr.draw()
   }
 
 }

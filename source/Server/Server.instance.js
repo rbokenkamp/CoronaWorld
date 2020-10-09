@@ -20,6 +20,10 @@ module.exports = {
   ws: {
     type: "WebSocket",
     defaultValue: {},
+  },
+  corona: {
+    type: "Corona",
+    defaultValue: {},
   }
 
 }
