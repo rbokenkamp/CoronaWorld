@@ -13,7 +13,6 @@ module.exports = class Menu extends PreCore.classes.Marker {
     Dom.querySelectorAll(node, ".selected[data-event=selectAspect]").forEach(node => {
       Dom.removeType(node, "selected")
     })
-    console.log(aspect)
     Dom.addType(Dom.querySelector(node, `[data-value=${aspect}]`), "selected")
   }
 }

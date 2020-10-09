@@ -2,7 +2,14 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
 
   create(params) {
     super.create(params)
+    const {aspectBind} = this
     this.initScores()
+
+    this.listen({event: "set", path: aspectBind}, ({value}) => {
+      this.initScores()
+      this.draw()
+    })
+
   }
 
   initScores() {
@@ -13,7 +20,6 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
     let maximum = 0
 
     const aspect = core.get(aspectBind)
-    console.log(aspect)
     for (const key in countries) {
       const score = countries[key].getScore(aspect)
       if (score !== undefined) {
@@ -44,7 +50,7 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
     g += Math.round((255 - g) * (1 - value))
     b += Math.round((255 - b) * (1 - value))
     return `rgba(${r},${g},${b},${opacity})`
-   }
+  }
 
 }
 

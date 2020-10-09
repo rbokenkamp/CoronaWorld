@@ -8,6 +8,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
         collection = core.get(dataPath),
         data = this.data = collection === undefined ? [] : Object.values(collection)
 
+    this.initData()
     this.scrollIndex = 0
     this.queueInterval = undefined
     this.queue = []
@@ -29,9 +30,12 @@ module.exports = class CollectionView extends PreCore.classes.Display {
       })
 
       this.listen({event: "set", path: aspectBind}, ({value}) => {
+        this.initData()
         if (this.selected) {
-          const index = data.findIndex(a => a.key === value) - Math.floor(this.count / 2)
+          const index = data.findIndex(a => a.key === this.selected) - Math.floor(this.count / 2)
           this.scrollIndex = scrollTicks * index
+        } else {
+          this.scrollIndex = 0
         }
         this.draw()
       })
