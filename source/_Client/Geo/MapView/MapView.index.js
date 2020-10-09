@@ -1,4 +1,7 @@
 module.exports = {
   type: "Type",
-  extend: "Display",
+  extend: "Widget",
+  errors: {
+    map_value_unknown: "Value ${value} is unknown for map ${path}"
+  }
 }

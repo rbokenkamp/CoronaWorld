@@ -63,7 +63,7 @@ module.exports = class CollectionView extends PreCore.classes.Display {
         clearInterval(this.queueInterval)
         delete this.queueInterval
       }
-    }, 5)
+    }, 10)
   }
 
   setWidths() {

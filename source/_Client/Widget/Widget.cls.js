@@ -1,50 +1,35 @@
 module.exports = class Widget extends PreCore.classes.Display {
 
 
-  screenToWidget(x, y) {
-    const {node, scale, viewScale} = this,
-        {offsetWidth, offsetHeight} = node.parentNode,
-        {clientWidth, clientHeight} = node,
-        realScale = scale * viewScale,
-        startX = this.x / 2 * offsetWidth + (offsetWidth - clientWidth * realScale) / 2,
-        widgetX = (x - startX) / realScale,
-
-        startY = this.y / 2 * offsetHeight + (offsetHeight - clientHeight * realScale) / 2,
-        widgetY = (y - startY) / realScale
-
-    if (widgetX < 0 || widgetX > clientWidth) {
-      return
+  transitionGetDelta(a, b, steps) {
+    const result = {}
+    for (const key in a) {
+      result[key] = (b[key] - a[key]) / steps
     }
-    if (widgetY < 0 || widgetY > clientHeight) {
-      return
-    }
-    return [widgetX, widgetY]
+    return result
   }
 
-  draw() {
-    // give inner content a chance to be drawn first
-    if (this.drawn !== true) {
-      this.drawn = true
-      setTimeout(() => this.draw())
-      return
+  transitionAddDelta(delta) {
+    for (const key in delta) {
+      this[key] += delta[key]
     }
-    const {node, x, scale, viewSize, y} = this,
-        parentNode = node.parentNode,
-        {offsetWidth, offsetHeight} = parentNode,
-        width = node.clientWidth,
-        height = node.clientHeight,
-        scaleWidth = offsetWidth / width * viewSize,
-        scaleHeight = offsetHeight / height * viewSize,
-        viewScale = this.viewScale = scaleWidth < scaleHeight ? scaleWidth : scaleHeight,
-        realScale = scale * viewScale,
-        dx = (offsetWidth * (1 + x) - width) *realScale/ 2,
-        dy = (offsetHeight * (1 + y) - height) *realScale/ 2
+  }
 
+  transition(options) {
+    const {x, y, scale, duration, steps, oncomplete} = options,
+        delta = this.transitionGetDelta({scale: this.scale, x: this.x, y: this.y}, {scale, x, y}, steps)
 
-    Dom.style(node, {
-      transform: `translateX(${dx}px) translateY(${dy}px) scale(${realScale}, ${realScale})`
-    })
-
+    let i = 0
+    const intervalId = setInterval(() => {
+      this.transitionAddDelta(delta)
+      const {scale, x, y} = this
+      this.draw()
+      i++
+      if (i == steps) {
+        clearInterval(intervalId)
+        oncomplete && oncomplete()
+      }
+    }, duration / steps)
   }
 
 }
