@@ -1,3 +1,4 @@
+process.title = "core"
 require("./index")
 // const data = new PreCore.classes.Data()
 //console.log(data, typeof data, data.constructor.name)
