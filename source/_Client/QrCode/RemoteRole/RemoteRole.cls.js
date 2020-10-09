@@ -1,11 +1,8 @@
-
-
 const RemoteRole = module.exports = class RemoteRole extends PreCore.classes.Tree {
 
   setListeners() {
     const {socket} = this
     this.listen({event: "set", path: "/app/layout/selectedCountry", originator: undefined}, ({value}) => {
-      const {value} = params
       socket.send(JSON.stringify({"/app/layout/selectedCountry": value}))
     })
     this.listen({event: "set", path: "/app/layout/aspect", originator: undefined}, ({value}) => {

@@ -4,7 +4,7 @@ module.exports = class QrCode extends PreCore.classes.Display {
     super.create(params)
     const {node} = this
     this.canvas = Dom.create({parent: node, tag: "canvas"})
-    const code = this.code = "hello"
+    const code = this.code = PreCore.genToken()
     this.parent.branch({key: "remoteHost", type: "RemoteHost", code})
  }
 
