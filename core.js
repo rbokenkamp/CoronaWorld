@@ -1,3 +1,11 @@
+process.on('uncaughtException', err => {
+  console.log('UNCAUGHT:', err)
+})
+process.on('unhandledRejection', (reason, promise) => {
+  console.log('Unhandled Rejection at:', promise, 'reason:', reason);
+})
+
+
 process.title = "core"
 require("./index")
 // const data = new PreCore.classes.Data()
@@ -11,7 +19,7 @@ global.core = new Server()
 try {
   const t0 = Date.now()
   core.instance(params, core)
- console.log("elapsed", Date.now() - t0)
+  console.log("elapsed", Date.now() - t0)
   const release = () => core.signal("release")
   process.on("SIGINT", release)
   process.on("SIGHUB", release)
