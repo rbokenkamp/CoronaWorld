@@ -4,11 +4,9 @@ const https = require("https"),
 module.exports = class extends PreCore.classes.Tree {
   create(data) {
     super.create(data)
-    core.listen({event: "queue-empty"}, () => {
-       this.timeline()
-      // fetch data every 4 hours
-      setInterval(() => this.timeline(), 1000 * 4 * 3600)
-    }, true)
+  //  this.timeline()
+    // fetch data every 4 hours
+    //  setInterval(() => this.timeline(), 1000 * 4 * 3600)
   }
 
   async fetch(alpha2) {
@@ -18,7 +16,7 @@ module.exports = class extends PreCore.classes.Tree {
         path: `/free-api?countryTimeline=${alpha2}`,
       }
 
-     // console.log(alpha2)
+      // console.log(alpha2)
       https.request(options, response => {
         let data = ""
 

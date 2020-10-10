@@ -60,6 +60,29 @@ const PostCore = module.exports = {}
           result += x1 * y2 - y1 * x2
         }
         return abs(result / 2)
+      },
+      colors = PostCore.colors = {
+        red: [219, 40, 40],
+        orange: [242, 113, 28],
+        olive: [181, 204, 24],
+        green: [33, 186, 69],
+        teal: [0, 181, 173],
+        blue: [33, 133, 208],
+        violet: [100, 53, 201],
+        purple: [163, 51, 200],
+        pink: [224, 57, 151],
+        brown: [165, 103, 63],
+        grey: [118, 118, 118],
+        black: [27, 28, 29],
+      },
+      getShade = PostCore.getShade = (rgb, value, opacity) => {
+        opacity = opacity === undefined ? 1 : opacity
+        let [r, g, b] = rgb
+        r += Math.round((255 - r) * (1 - value))
+        g += Math.round((255 - g) * (1 - value))
+        b += Math.round((255 - b) * (1 - value))
+        return `rgba(${r},${g},${b},${opacity})`
       }
+
 
 }
