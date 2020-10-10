@@ -13,7 +13,7 @@ module.exports = {
     type: "ClientSource",
     defaultValue: {},
   },
-   http: {
+  http: {
     type: "Http",
     defaultValue: {},
   },
@@ -21,9 +21,4 @@ module.exports = {
     type: "WebSocket",
     defaultValue: {},
   },
-  corona: {
-    type: "Corona",
-    defaultValue: {},
-  }
-
 }

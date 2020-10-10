@@ -1,0 +1,34 @@
+@import "colors";
+
+.Mockup {
+  bacground: $grey;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.Mockup-Body {
+  width: 375px;
+  height: 667px;
+  border: 10px solid gold;
+  display: flex;
+}
+
+.Mockup-Container {
+  background: $orange;
+  flex: 1 0 auto;
+}
+
+.Mockup-Map {
+  background: $blue;
+  color: white;
+}
+
+
+.MockupMenu {
+  background: black;
+  color: white;
+  width: 50px;
+}

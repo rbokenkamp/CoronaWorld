@@ -53,6 +53,7 @@ const Display = module.exports = class Display extends PreCore.classes.Tree {
 
       if (type && key) {
         const metas = types[this.type].instance
+        console.log(this.type, metas)
         if (key in metas === false) {
           this.raise("tree_unknown_param", {path: this.path + "/" + key})
         }

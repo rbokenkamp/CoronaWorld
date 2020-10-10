@@ -4,7 +4,7 @@ const https = require("https"),
 module.exports = class extends PreCore.classes.Tree {
   create(data) {
     super.create(data)
-  //  this.timeline()
+      this.timeline()
     // fetch data every 4 hours
     //  setInterval(() => this.timeline(), 1000 * 4 * 3600)
   }
@@ -16,7 +16,7 @@ module.exports = class extends PreCore.classes.Tree {
         path: `/free-api?countryTimeline=${alpha2}`,
       }
 
-      // console.log(alpha2)
+      console.log(alpha2)
       https.request(options, response => {
         let data = ""
 
@@ -64,6 +64,7 @@ module.exports = class extends PreCore.classes.Tree {
   async timeline() {
     const months = {}
     const {countries} = core
+    console.log(countries)
     const t0 = Date.now()
     for (const alpha2 in countries) {
       const country = countries[alpha2],
@@ -71,6 +72,7 @@ module.exports = class extends PreCore.classes.Tree {
       if (corona === true) {
         try {
           const {timelineitems} = JSON.parse(await this.fetch(alpha2))
+          fs.writeFileSync(__dirname + "/_cache/" + alpha2 + ".js", "module.exports="+PreCore.toSource(timelineitems))
           if (timelineitems === undefined) {
             continue
           }
