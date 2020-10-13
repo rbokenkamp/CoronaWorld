@@ -21,4 +21,12 @@ module.exports = {
     type: "WebSocket",
     defaultValue: {},
   },
+  countries: {
+    type: "Collection",
+    item: "Country",
+  },
+  corona: {
+    type: "Corona",
+  //  defaultValue: {},
+  }
 }

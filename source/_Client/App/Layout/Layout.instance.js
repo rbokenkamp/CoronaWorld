@@ -10,8 +10,8 @@ module.exports = {
   selectedRegion: "Text",
   aspect: {
     type: "Choice",
-    choices: ["density", "population", "area"],
-    defaultValue: "density",
+    choices: ["density", "population", "area", "infections", "deltaInfections"],
+    defaultValue: "infections",
   },
   qrCode: "QrCode",
   remoteHost: "RemoteHost",

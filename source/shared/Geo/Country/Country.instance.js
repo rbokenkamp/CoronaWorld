@@ -36,5 +36,12 @@ module.exports = {
    */
   location: "Branch",
   shapes: "Branch",
+
+
+  stats: "Branch", //@TODO make this List
+  lastInfections: "Real",
+  deltaInfections: "Real",
+  lastDeaths: "Real",
+  deltaDeaths: "Real",
 //  shapes: "List",
 }

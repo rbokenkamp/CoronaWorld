@@ -115,8 +115,7 @@ const Tree = module.exports = class Tree extends PreCore.classes.Branch {
 
     let branch = this[key]
     if (branch !== undefined) {
-      console.log("@@@", branch)
-      return branch.set(value)
+       return branch.set(value)
     }
 
     if (kind === "Tree") {

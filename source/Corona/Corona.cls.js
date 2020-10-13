@@ -4,9 +4,12 @@ const https = require("https"),
 module.exports = class extends PreCore.classes.Tree {
   create(data) {
     super.create(data)
-      this.timeline()
+    const countries = require(__dirname + "/data/countries")
+
+    this.timeline(countries)
     // fetch data every 4 hours
     //  setInterval(() => this.timeline(), 1000 * 4 * 3600)
+    this.parent.setBranch("countries", countries)
   }
 
   async fetch(alpha2) {
@@ -30,19 +33,6 @@ module.exports = class extends PreCore.classes.Tree {
     })
   }
 
-  getWeekNumber(date) {
-    const d = new Date(date.valueOf()),
-        dayNum = d.getUTCDay() || 7;
-
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum)
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-    return "" + d.getUTCFullYear() + this.lz(Math.ceil((((d - yearStart) / 86400000) + 1) / 7))
-  }
-
-  lz(x) {
-    return x > 9 ? "" + x : "0" + x
-  }
-
   convert(date) {
     let [month, day, year] = date.split("/")
 
@@ -52,27 +42,23 @@ module.exports = class extends PreCore.classes.Tree {
     return new Date(Date.UTC(year, month - 1, day))
   }
 
-  toDate(date) {
-    return date.getUTCFullYear() + "-" + this.lz(date.getUTCMonth() + 1) + "-" + this.lz(date.getUTCDate())
-  }
 
-  getFullMonth(date) {
-    return date.getUTCFullYear() + this.lz(date.getUTCMonth() + 1)
-  }
+  async timeline(countries) {
+    const t0 = Date.now(),
+        {TextDate} = PreCore.classes,
+        {dateToText} = TextDate
 
-
-  async timeline() {
-    const months = {}
-    const {countries} = core
-    console.log(countries)
-    const t0 = Date.now()
+     const countriesTimeline = {}
     for (const alpha2 in countries) {
       const country = countries[alpha2],
-          {corona} = country
+          {corona} = country,
+          timeline = countriesTimeline[alpha2] = {}
+
       if (corona === true) {
         try {
-          const {timelineitems} = JSON.parse(await this.fetch(alpha2))
-          fs.writeFileSync(__dirname + "/_cache/" + alpha2 + ".js", "module.exports="+PreCore.toSource(timelineitems))
+//          const {timelineitems} = JSON.parse(await this.fetch(alpha2))
+          // fs.writeFileSync(__dirname + "/_cache/" + alpha2 + ".js", "module.exports=" + PreCore.toSource(timelineitems))
+          const timelineitems = require(__dirname + "/_cache/" + alpha2)
           if (timelineitems === undefined) {
             continue
           }
@@ -82,8 +68,7 @@ module.exports = class extends PreCore.classes.Tree {
             if (key === "stat") {
               continue
             }
-            const date = this.convert(key),
-                monthId = this.getFullMonth(date),
+            const date = dateToText(this.convert(key)),
                 item = items[key]
 
             const {
@@ -93,30 +78,18 @@ module.exports = class extends PreCore.classes.Tree {
             } = item
 
 
-            const month = months[monthId] = months[monthId] || [],
-                new_daily_recoveries = total_recoveries - recoveries
+            const new_daily_recoveries = total_recoveries - recoveries
+
             recoveries = total_recoveries
 
-            month.push([alpha2, this.toDate(date), new_daily_cases, new_daily_deaths, new_daily_recoveries])
+            timeline[date] = [new_daily_cases, new_daily_deaths, new_daily_recoveries]
           }
         } catch (err) {
           console.log(err)
         }
       }
     }
-
-    const path = __dirname + "/data/timeline"
-    for (const key in months) {
-      const file = path + "/" + key + ".js",
-          result = "module.exports=" + JSON.stringify(months[key])
-      if (fs.existsSync(file)) {
-        if (fs.statSync(file).size === result.length) {
-          continue
-        }
-      }
-      console.log("--->", key)
-      fs.writeFileSync(file, result)
-    }
+   fs.writeFileSync(__dirname+"/data/timeline.js", "module.exports="+PreCore.toSource(countriesTimeline))
     console.log("timeline imported", {elapsed: Date.now() - t0})
   }
 }

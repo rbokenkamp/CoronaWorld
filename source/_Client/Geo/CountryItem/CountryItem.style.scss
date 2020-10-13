@@ -17,4 +17,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  svg {
+    height: 20px;
+    width: 50px;
+    margin: 0 5px;
+
+   path {
+      stroke: white;
+    }
+  }
+
 }

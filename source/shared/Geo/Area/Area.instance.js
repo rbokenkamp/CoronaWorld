@@ -10,9 +10,9 @@ module.exports = {
   },
   population: "Integer",
   area: "Real",
+  stats: "Branch",
   /*
   timeline: "Branch",
-  stats: "Branch",
   newInfections: "Real",
   newDeaths: "Real",
 

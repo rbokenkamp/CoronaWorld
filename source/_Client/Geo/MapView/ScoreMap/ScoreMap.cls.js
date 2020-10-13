@@ -17,27 +17,29 @@ const ScoreMap = module.exports = class ScoreMap extends PreCore.classes.MapView
         {countries} = core
 
     const stats = {}
-    let maximum = 0
+    let maximum = 0,
+        minimum = 0
 
     const aspect = core.get(aspectBind)
     for (const key in countries) {
       const score = countries[key].getScore(aspect)
       stats[key] = score
       maximum = score > maximum ? score : maximum
+      minimum = score < minimum ? score : minimum
     }
 
     for (const key in stats) {
       const stat = stats[key]
-      const score = stats[key] = stat === undefined ? undefined : stat / maximum
+      const score = stats[key] = stat === undefined ? undefined : (stat < 0 ? -stat / minimum : stat / maximum)
     }
 
-    const color = PostCore.colors.violet
     let i = 0
     Dom.querySelectorAll(node, "path[data-key]").forEach(child => {
       const key = Dom.getAttribute(child, "data-key")
       if (key in stats) {
         const stat = stats[key]
-        const fill = stat === undefined ? "" : PostCore.getShade(color, stats[key])
+        const color = PostCore.colors[minimum === 0 ? "violet" : (stat < 0 ? "green" : "red")]
+        const fill = stat === undefined ? "" : PostCore.getShade(color, Math.abs(stat))
         Dom.style(child, {fill})
       }
     })

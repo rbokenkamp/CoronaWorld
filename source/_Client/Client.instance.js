@@ -11,6 +11,7 @@ module.exports = {
     type: "Collection",
     item: "Country",
   },
+  timeline: "Timeline",
   app: {
     type: "App",
     defaultValue: {},

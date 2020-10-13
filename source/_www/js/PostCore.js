@@ -32,6 +32,9 @@ const PostCore = module.exports = {}
           return "0"
         }
 
+        const negativeFactor = x < 0 ? -1 : 1
+        x = Math.abs(x)
+
         let lg = log(x) / log(10)
         if (lg > 0) {
           const level = Math.floor(lg / 3)
@@ -43,7 +46,7 @@ const PostCore = module.exports = {}
         lg = floor(lg) - 1
 
         const y = pow(10, -lg)
-        return round(x * y) / y
+        return negativeFactor * round(x * y) / y
       },
       distanceToLine = PostCore.distanceToLine = ([x0, y0], [x1, y1], [x2, y2]) => {
         const dx = x2 - x1,

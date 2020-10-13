@@ -41,6 +41,17 @@
 
     }
 
+    processCountries(countries) {
+      const result = {}
+      for (const key in countries) {
+        const country = countries[key]
+        if (country.corona) {
+          result[key] = country
+        }
+      }
+      return result
+    }
+
 
     start() {
       const {classes} = PreCore,
@@ -55,7 +66,8 @@
       window.core = new PreCore.classes[type]()
       core.paths = this.paths
       delete this.paths
-      params.countries = PreCore.data.countries
+      params.countries = this.processCountries(PreCore.data.countries)
+      params.timeline = {type: "Timeline", dates: PreCore.data.timeline}
       try {
         core.instance(params, core)
         console.log("@@@ core @@@", core)
