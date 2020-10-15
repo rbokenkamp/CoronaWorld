@@ -20,7 +20,7 @@ module.exports = class Server extends PreCore.classes.Core {
 
     this.checkTypes()
     super.create(params)
-   }
+  }
 
   checkTypes() {
     const {types} = PreCore,
@@ -39,7 +39,7 @@ module.exports = class Server extends PreCore.classes.Core {
 
   getDependencies() {
     const {disc, home} = this
-    PreCore.modulePaths = {Server: home}
+    const modulePaths = PreCore.modulePaths = {Server: home}
     const rootPath = home.substr(0, home.lastIndexOf("/"))
     const {dependencies} = JSON.parse(disc.get(rootPath + "/package.json").toString("utf8")),
         result = []
@@ -53,7 +53,8 @@ module.exports = class Server extends PreCore.classes.Core {
       PreCore.modules[key] = []
       const modulePath = `${rootPath}/node_modules/${key}/source`
       result.push([key, modulePath])
-      PreCore.modulePaths[key] = modulePath
+      modulePaths[key] = modulePath
+      PreCore.modulePaths = Object.assign({Core: modulePaths.Core}, modulePaths)
     }
     return result
   }
