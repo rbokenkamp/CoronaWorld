@@ -11,7 +11,7 @@ require("./index")
 // const data = new PreCore.classes.Data()
 //console.log(data, typeof data, data.constructor.name)
 // process.exit()
-const Server = require("./source/Server/Server.cls.js"),
+const {Server} = PreCore.classes
     params = require("./core.params.js")
 
 global.core = new Server()
