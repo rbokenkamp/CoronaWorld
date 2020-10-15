@@ -3,5 +3,8 @@ module.exports = {
     type: "UserInputs",
     defaultValue: {},
   },
-  layout: "Layout",
+  layout: {
+    type: "Layout",
+    defaultValue: {},
+  },
 }
