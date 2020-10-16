@@ -87,7 +87,7 @@ const Dom = {
   querySelectorAll: (node, selector) => node.querySelectorAll(selector),
 }
 
-Dom.create = ({parent, tag, types, attributes, value}) => {
+Dom.create = ({parent, tag, types, attributes, value, style}) => {
   tag = tag || "div"
   const node = tag in Dom.svgNodes ?
       document.createElementNS("http://www.w3.org/2000/svg", tag) :
@@ -98,6 +98,9 @@ Dom.create = ({parent, tag, types, attributes, value}) => {
   }
   if (types) {
     Dom.setTypes(node, types)
+  }
+  if (style) {
+    Dom.style(node, style)
   }
   if (value) {
     Dom.set(node, value)
