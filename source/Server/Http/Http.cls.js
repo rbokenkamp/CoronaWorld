@@ -21,6 +21,7 @@ const mimes = {
     },
 
     Http = module.exports = class extends PreCore.classes.Tree {
+
       create(params) {
         super.create(params)
         const {parent, port, https, options} = this,
@@ -35,10 +36,11 @@ const mimes = {
                 request.on("data", data => {
                   result += data
                 })
-                request.on("end", function () {
+                request.on("end", () => {
                   httpWrite(response, 200, "")
-                  console.log("+-".repeat(50))
-                  console.log(JSON.parse(result))
+                  const value = JSON.parse(result),
+                      handler = request.url.substr(1)
+                  this[handler](value)
                 })
                 return
               }
@@ -76,6 +78,11 @@ const mimes = {
 
           console.log(`server is listening on ${port}`)
         })
+      }
+
+      log(params) {
+        console.log("+-".repeat(50))
+        console.log(params)
       }
 
       release() {
