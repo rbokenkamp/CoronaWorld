@@ -9,6 +9,17 @@ module.exports = {
   },
   https: "Boolean",
   options: "Branch",
+  mimes: {
+    type: "Branch",
+    defaultValue: {
+      html: "text/html",
+      css: "text/css",
+      js: "text/javascript",
+      png: "image/png",
+      jpg: "image/jpg",
+
+     }
+  }
   /*
   options: {
     type: "Hash",

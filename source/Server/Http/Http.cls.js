@@ -1,17 +1,4 @@
-const mimes = {
-      html: "text/html",
-      css: "text/css",
-      js: "text/javascript",
-      png: "image/png",
-      jpg: "image/jpg",
-
-  // @@@TODO move this to instance
-      gif: "image/gif",
-      mp4: "video/mp4",
-      map: "application/octet-stream",
-
-    },
-    httpWrite = (response, status, content, mime, deflated, timestamp) => {
+const httpWrite = (response, status, content, mime, deflated, timestamp) => {
       const headers = {
         "Content-Type": mime || "text/plain",
       }
@@ -30,7 +17,7 @@ const mimes = {
 
       create(params) {
         super.create(params)
-        const {parent, port, https, options} = this,
+        const {parent, port, https, options, mimes} = this,
             {home} = core,
             {deflatable} = Http,
             {clientSource} = parent,
