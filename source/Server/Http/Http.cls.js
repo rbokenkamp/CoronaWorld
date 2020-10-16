@@ -4,6 +4,12 @@ const mimes = {
       js: "text/javascript",
       png: "image/png",
       jpg: "image/jpg",
+
+  // @@@TODO move this to instance
+      gif: "image/gif",
+      mp4: "video/mp4",
+      map: "application/octet-stream",
+
     },
     httpWrite = (response, status, content, mime, deflated, timestamp) => {
       const headers = {
