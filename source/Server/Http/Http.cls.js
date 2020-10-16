@@ -17,13 +17,14 @@ const httpWrite = (response, status, content, mime, deflated, timestamp) => {
 
       create(params) {
         super.create(params)
-        const {parent, port, https, options, mimes} = this,
+         const {parent, port, https, options} = this,
             {home} = core,
             {deflatable} = Http,
             {clientSource} = parent,
             protocol = require(https ? "https" : "http"),
             server = this.server = protocol.createServer(options, (request, response) => {
-
+              const {mimes} = this
+              console.log({mimes})
               if (request.method === "POST") {
                 let result = ""
                 request.on("data", data => {
