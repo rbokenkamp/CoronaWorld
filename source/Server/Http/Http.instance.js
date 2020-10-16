@@ -17,8 +17,10 @@ module.exports = {
       js: "text/javascript",
       png: "image/png",
       jpg: "image/jpg",
-
-     }
+      gif: "image/gif",
+      mp4: "video/mp4",
+      map: "application/octet-stream",
+    }
   }
   /*
   options: {
