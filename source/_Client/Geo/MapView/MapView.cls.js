@@ -1,6 +1,7 @@
 module.exports = class MapView extends PreCore.classes.Widget {
 
   create(params) {
+    params.node = "svg"
     params.types = ["InputListener"]
     super.create(params)
     const {bindPath, node} = this
