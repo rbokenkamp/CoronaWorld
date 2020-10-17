@@ -20,6 +20,8 @@ module.exports = {
       gif: "image/gif",
       mp4: "video/mp4",
       map: "application/octet-stream",
+      fs: "text/plain",
+      vs: "text/plain",
     }
   }
   /*
