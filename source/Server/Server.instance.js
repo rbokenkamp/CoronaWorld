@@ -27,6 +27,6 @@ module.exports = {
   },
   corona: {
     type: "Corona",
-  //  defaultValue: {},
+    defaultValue: {},
   }
 }
