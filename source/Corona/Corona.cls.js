@@ -48,7 +48,7 @@ module.exports = class extends PreCore.classes.Tree {
         {TextDate} = PreCore.classes,
         {dateToText} = TextDate
 
-    const countriesTimeline = {}
+     const countriesTimeline = {}
     for (const alpha2 in countries) {
       const country = countries[alpha2],
           {corona} = country,
@@ -57,8 +57,8 @@ module.exports = class extends PreCore.classes.Tree {
       if (corona === true) {
         try {
           const {timelineitems} = JSON.parse(await this.fetch(alpha2))
-          fs.writeFileSync(__dirname + "/_cache/" + alpha2 + ".js", "module.exports=" + PreCore.toSource(timelineitems))
-          //   const timelineitems = require(__dirname + "/_cache/" + alpha2)
+           fs.writeFileSync(__dirname + "/_cache/" + alpha2 + ".js", "module.exports=" + PreCore.toSource(timelineitems))
+       //   const timelineitems = require(__dirname + "/_cache/" + alpha2)
           if (timelineitems === undefined) {
             continue
           }
@@ -89,7 +89,7 @@ module.exports = class extends PreCore.classes.Tree {
         }
       }
     }
-    fs.writeFileSync(__dirname + "/data/timeline.js", "module.exports=" + PreCore.toSource(countriesTimeline))
+   fs.writeFileSync(__dirname+"/data/timeline.js", "module.exports="+PreCore.toSource(countriesTimeline))
     console.log("timeline imported", {elapsed: Date.now() - t0})
   }
 }
